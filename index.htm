@@ -449,12 +449,12 @@ html, body {
 .sidebar-divider       { height:1px; background-color:rgba(255,255,255,.07); margin:var(--space-3) var(--space-4); }
 
 /* ── 主內容區 ── */
-.app-main { flex:1;background-color:var(--color-bg-main);overflow-y:auto;padding:var(--content-padding-y) var(--content-padding-x);display:flex;flex-direction:column;gap:var(--space-4);min-height:0;overflow-x:hidden; }
+.app-main { flex:1;background-color:var(--color-bg-main);overflow-y:auto;padding:var(--content-padding-y) var(--content-padding-x);display:flex;flex-direction:column;gap:var(--space-4);min-height:0; }
 
 /* 文件中心 / 數據分析 等全高頁面（無 padding 貼滿）*/
 #page-doccenter.active, #page-analytics.active, .page-section { display:none;flex-direction:column;gap:var(--space-4);overflow-x:hidden; }
-.page-section.active { display:flex; flex-direction:column; overflow:hidden; min-height:0; }
-#page-doccenter.active { display:flex;flex:1;min-height:0;flex-direction:column;overflow:hidden; }
+.page-section.active { display:flex; flex-direction:column; }
+#page-doccenter.active { display:flex;flex:1;min-height:0;flex-direction:column; }
 #page-workhour.active, #page-labor.active, #page-analytics.active, #page-monthly-all.active, #page-extraops.active { display:flex;flex:1;min-height:0;flex-direction:column;overflow:hidden; }
 
 
@@ -1217,162 +1217,6 @@ html, body {
 @media (max-width: 768px) {
   #mobile-bottom-nav { display: flex !important; }
   .app-sidebar        { display: none !important; }
-}
-
-
-/* ============================================================
-   ⑱ 手機版修正（純 CSS 調整，不增加任何 HTML 結構）
-   ============================================================ */
-
-@media (max-width: 768px) {
-
-  /* ── Header 強制 sticky ── */
-  .app-header {
-    position: sticky !important;
-    top: 0 !important;
-    z-index: 9000 !important;
-  }
-
-  /* ── Copyright 顯示 ── */
-  .header-subtitle { display: block !important; }
-
-  /* ── 意見欄 / 回報問題：完整文字，按鈕自動寬 ── */
-  .btn-feedback, .btn-danger {
-    width: auto !important;
-    min-width: 72px !important;
-    padding: 0 10px !important;
-    font-size: 11px !important;
-    height: 30px !important;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
-  /* ── 右上角用戶：頭像＋名字，隱藏第一個重複字 ── */
-  /* user-chip-avatar 顯示第1字（如「張」），user-chip-name 顯示姓名（如「張名揚」）*/
-  /* 移除多餘的 name 隱藏，讓兩者都顯示 */
-  .user-chip-name { display: inline !important; font-size: 12px; }
-  .user-chip { padding: 4px 10px !important; gap: 5px; }
-
-  /* ── 新增帳號按鈕 ── */
-  #acc-add-btn {
-    font-size: 11px !important;
-    padding: 0 10px !important;
-    height: 32px !important;
-    white-space: nowrap;
-    background: var(--color-gold) !important;
-    color: #1c1c15 !important;
-    border: none !important;
-    border-radius: var(--radius-md) !important;
-    flex-shrink: 0;
-  }
-
-  /* ── 帳號管理 toolbar：手機版三欄同排 ── */
-  .toolbar { flex-wrap: wrap; gap: 8px; }
-  .toolbar .search-box { flex: 1 1 100%; }
-  .toolbar .filter-select { flex: 1 1 calc(50% - 4px); font-size: 12px; height: 34px; }
-
-  /* ── 申請/月/全員/本月/意見/問題 各表格 → CSS 卡片版型 ──
-       做法：讓 table 變成 block，tr 變成卡片，td 變成行
-       只針對這幾個有資料的表格，不影響帳號管理表格（帳號管理另處理）
-  ── */
-  #page-main    .data-table,
-  #page-myrecords .data-table,
-  #page-monthly .data-table,
-  #page-monthly-all .data-table,
-  #page-feedback-mgr .data-table,
-  #page-report-mgr .data-table { display: block; width: 100%; }
-
-  /* thead 隱藏（標題列不需要顯示）*/
-  #page-main    .data-table thead,
-  #page-myrecords .data-table thead,
-  #page-monthly .data-table thead,
-  #page-monthly-all .data-table thead,
-  #page-feedback-mgr .data-table thead,
-  #page-report-mgr .data-table thead { display: none; }
-
-  /* tbody 變成 block */
-  #page-main    .data-table tbody,
-  #page-myrecords .data-table tbody,
-  #page-monthly .data-table tbody,
-  #page-monthly-all .data-table tbody,
-  #page-feedback-mgr .data-table tbody,
-  #page-report-mgr .data-table tbody { display: block; width: 100%; padding: 8px; }
-
-  /* tr 變成卡片 */
-  #page-main    .data-table tbody tr,
-  #page-myrecords .data-table tbody tr,
-  #page-monthly .data-table tbody tr,
-  #page-monthly-all .data-table tbody tr,
-  #page-feedback-mgr .data-table tbody tr,
-  #page-report-mgr .data-table tbody tr {
-    display: block;
-    background: var(--color-bg-card) !important;
-    border: 1px solid var(--color-border-card);
-    border-radius: var(--radius-md);
-    margin-bottom: 10px;
-    padding: 12px 14px;
-    box-shadow: var(--shadow-card);
-  }
-
-  /* td 變成 flex 行，有 data-label 時顯示標籤 */
-  #page-main    .data-table tbody td,
-  #page-myrecords .data-table tbody td,
-  #page-monthly .data-table tbody td,
-  #page-monthly-all .data-table tbody td,
-  #page-feedback-mgr .data-table tbody td,
-  #page-report-mgr .data-table tbody td {
-    display: flex;
-    align-items: flex-start;
-    padding: 3px 0;
-    font-size: 12px;
-    text-align: left !important;
-    white-space: normal;
-    overflow: visible;
-    border: none;
-    justify-content: flex-start;
-  }
-
-  /* 編號欄（td-mono）：小字灰色 */
-  #page-main    .data-table tbody td.td-mono,
-  #page-myrecords .data-table tbody td.td-mono,
-  #page-monthly .data-table tbody td.td-mono,
-  #page-monthly-all .data-table tbody td.td-mono { font-size: 10px; color: var(--color-text-muted); }
-
-  /* 狀態徽章 td：不佔整行 */
-  #page-main .data-table tbody td:nth-child(8),
-  #page-myrecords .data-table tbody td:nth-child(8),
-  #page-monthly .data-table tbody td:nth-child(8),
-  #page-monthly-all .data-table tbody td:nth-child(8) { flex-wrap: wrap; gap: 4px; }
-
-  /* 操作 td（最後一欄）：居中 */
-  #page-main .data-table tbody td:last-child,
-  #page-myrecords .data-table tbody td:last-child,
-  #page-monthly .data-table tbody td:last-child,
-  #page-monthly-all .data-table tbody td:last-child,
-  #page-feedback-mgr .data-table tbody td:last-child,
-  #page-report-mgr .data-table tbody td:last-child {
-    justify-content: flex-end;
-    margin-top: 6px;
-    border-top: 1px solid var(--color-border-table);
-    padding-top: 8px;
-  }
-
-  /* table-section 的橫向 overflow 取消 */
-  #page-main    .table-section,
-  #page-myrecords .table-section,
-  #page-monthly .table-section,
-  #page-monthly-all .table-section,
-  #page-feedback-mgr .table-section,
-  #page-report-mgr .table-section { overflow-x: visible; }
-
-  /* ── 帳號管理：保持桌面表格樣式，不改為卡片 ── */
-  #page-account .data-table { display: table; }
-  #page-account .data-table thead { display: table-header-group; }
-  #page-account .data-table tbody { display: table-row-group; }
-  #page-account .data-table tbody tr { display: table-row; background: unset !important; border: none; margin: 0; padding: 0; box-shadow: none; }
-  #page-account .data-table tbody td { display: table-cell; }
-  /* 帳號表格允許橫向捲動 */
-  #page-account .table-section { overflow-x: auto; }
 }
 
 </style>
