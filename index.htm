@@ -2153,6 +2153,9 @@ html, body {
           <div class="table-footer"><div class="pagination" id="mon-pagination"></div></div>
         </div>
       </div>
+
+      <!-- ════ 本月查詢 ════ -->
+      <div class="page-section" id="page-monthly-all">
         <!-- 假別統計（全員本月）-->
         <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:10px;">
           <div style="background:var(--color-bg-card);border:1px solid var(--color-border-card);border-radius:var(--radius-lg);padding:var(--card-padding);text-align:center;box-shadow:var(--shadow-card);position:relative;cursor:pointer;" class="leave-filter-card" onclick="filterMallLeave('事假',this)">
@@ -2287,7 +2290,8 @@ html, body {
           </table>
           <div class="table-footer"><div class="pagination" id="mall-pagination"></div></div>
         </div>
-      </div>
+      </div><!-- end page-monthly-all -->
+
       <div class="page-section" id="page-feedback-mgr" style="gap:var(--space-4);">
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
           <div class="stat-card bg-total"><span class="stat-card-label">總計</span><div class="stat-card-value-row"><span class="stat-card-value" id="fb-total">0</span><span class="stat-card-unit">筆</span></div></div>
