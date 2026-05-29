@@ -964,85 +964,115 @@ html, body {
 /* ── 平板 / 大螢幕手機 ── */
 @media (max-width: 768px) {
 
-  /* Header：縮小 padding，品牌名稱截短 */
+  /* ── Header：sticky 置頂 ── */
   .app-header {
+    position: sticky;
+    top: 0;
+    z-index: 9000;
     padding: 0 var(--space-3);
     height: 52px;
   }
+
+  /* ── Copyright 顯示（不隱藏）── */
+  .header-subtitle { display: block !important; font-size: 10px; }
   .header-title  { font-size: 15px; }
-  .header-subtitle { display: none; }        /* 版號小字隱藏 */
 
-  /* Header 右側按鈕：只保留圖示，隱藏文字 */
+  /* ── Header 右側按鈕：顯示完整文字，調小尺寸 ── */
   .btn, .btn-feedback, .btn-danger {
-    width: 38px;
-    font-size: 0;                             /* 隱藏文字 */
-    padding: 0;
-    gap: 0;
+    width: auto;
+    min-width: 0;
+    padding: 0 8px;
+    font-size: 11px;
+    height: 30px;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
-  .btn  > span:not(:first-child),
-  .btn-feedback > span:not(:first-child),
-  .btn-danger   > span:not(:first-child) { display: none; }
 
-  /* Body：改為上下堆疊 */
+  /* ── 右上角 user-chip：橘色頭像已顯示第一字，名字從第二字開始 ── */
+  .user-chip { padding: 4px 10px 4px 6px !important; gap: 5px; }
+  #userName { font-size: 0 !important; }
+  #userName::before {
+    content: attr(data-short);
+    font-size: 12px;
+    font-weight: 600;
+    color: #f0ece2;
+  }
+
+  /* ── Sidebar 隱藏（改用底部 nav）── */
+  .app-sidebar { display: none !important; }
+
+  /* ── Body 改為直列 ── */
   .app-body { flex-direction: column; }
 
-  /* Sidebar：改為水平 Top bar（固定在 Header 下方）*/
-  .app-sidebar {
-    width: 100%;
-    height: auto;
-    flex-direction: row;
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding: 0;
-    border-right: none;
-    border-bottom: 1px solid var(--color-border-sidebar);
-    flex-shrink: 0;
-  }
-
-  /* Sidebar 分類大標隱藏 */
-  .sidebar-section-label,
-  .sidebar-section-sub,
-  .sidebar-divider { display: none; }
-
-  /* Sidebar 導覽項目改為橫向 pill */
-  .sidebar-nav-item {
-    height: 40px;
-    padding: 0 var(--space-3);
-    white-space: nowrap;
-    border-left: none;
-    border-bottom: 2px solid transparent;
-    font-size: 12px;
-    flex-shrink: 0;
-  }
-  .sidebar-nav-item.active {
-    border-left: none;
-    border-bottom-color: var(--color-gold);
-  }
-  .sidebar-icon { font-size: 13px; }
-
-  /* Main：減少 padding */
+  /* ── Main 留出底部 nav 空間 ── */
   .app-main {
-    padding: var(--space-3) var(--space-3);
+    padding: var(--space-3);
     gap: var(--space-3);
+    padding-bottom: 70px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
-  /* 統計卡片：3 欄 */
+  /* ── 統計卡片 3 欄 ── */
   .stats-grid { grid-template-columns: repeat(3, 1fr); gap: var(--space-2); }
-  .stat-card-value { font-size: 22px; }
+  .stat-card-value { font-size: 20px; }
+  .stat-card-label { font-size: 10px; }
 
-  /* Tab 列：字縮小 */
+  /* ── Tab 列 ── */
   .tab-item { font-size: 12px; height: 38px; }
 
-  /* 表格容器：允許水平捲動 */
+  /* ── 表格：允許橫向捲動（電腦版資料不變）── */
   .table-section { overflow-x: auto; }
   .data-table { min-width: 600px; }
 
-  /* Modal：寬度加大 */
+  /* ── 帳號管理 toolbar：搜尋佔多 + 兩個 filter 同排 ── */
+  #acc-desktop-table .toolbar {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: var(--space-2) var(--space-3);
+  }
+  #acc-desktop-table .toolbar .search-box {
+    flex: 2 1 160px;
+    min-width: 0;
+  }
+  #acc-desktop-table .toolbar .filter-select {
+    flex: 1 1 100px;
+    min-width: 0;
+    font-size: 11px;
+  }
+  /* 新增帳號按鈕顯示 */
+  #acc-add-btn {
+    display: flex !important;
+    font-size: 12px !important;
+    padding: 0 10px !important;
+    height: 32px !important;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* ── 帳號管理：桌面表格隱藏，卡片顯示 ── */
+  #acc-desktop-table { display: none !important; }
+  #acc-mobile-list   { display: block !important; }
+
+  /* ── 意見/問題：表格隱藏，卡片顯示 ── */
+  #page-feedback-mgr .table-section { display: none !important; }
+  #page-report-mgr   .table-section { display: none !important; }
+  #fb-mobile-list { display: block !important; }
+  #rp-mobile-list { display: block !important; }
+
+  /* ── Modal ── */
+  .modal-overlay { align-items: flex-end; }
   .form-modal-box,
   .feedback-modal-box,
-  .reject-modal-box { max-width: 96vw; padding: var(--space-4); }
+  .reject-modal-box {
+    max-width: 100vw;
+    width: 100%;
+    border-radius: 16px 16px 0 0;
+    max-height: 88vh;
+    padding: var(--space-4) var(--space-3);
+  }
 
-  /* 文件中心：sidebar 收起 */
+  /* ── 文件中心 sidebar ── */
   .doccenter-sidebar { width: 120px; }
   .doccenter-sidebar-item { font-size: 12px; padding: 8px var(--space-2); }
 }
@@ -1218,6 +1248,122 @@ html, body {
   #mobile-bottom-nav { display: flex !important; }
   .app-sidebar        { display: none !important; }
 }
+
+/* ── 手機版 mob-info-card（意見回饋 / 問題回報）── */
+.mob-info-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-card);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: var(--shadow-card);
+}
+.mic-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+.mic-type  { font-size: 11px; font-weight: 600; color: var(--color-text-muted); margin-bottom: 2px; }
+.mic-name  { font-size: 15px; font-weight: 600; color: var(--color-text-primary); }
+.mic-status {
+  font-size: 10px; font-weight: 700;
+  padding: 3px 10px; border-radius: 10px;
+  white-space: nowrap; flex-shrink: 0;
+}
+.mic-preview {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.mic-detail {
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 6px;
+  padding-top: 10px;
+  border-top: 1px solid var(--color-border-table);
+}
+.mic-detail.open { display: flex; }
+.mic-meta  { font-size: 11px; color: var(--color-text-muted); font-family: var(--font-mono); }
+.mic-full-content {
+  font-size: 13px;
+  color: var(--color-text-primary);
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+.mic-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.mic-btn {
+  font-size: 11px; padding: 6px 14px;
+  border-radius: 6px; cursor: pointer;
+  border: 1.5px solid #90caf9;
+  background: #deeeff; color: #5b9bd5;
+  font-weight: 600; transition: .15s;
+}
+.mic-toggle {
+  text-align: right;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.mic-toggle:hover { color: var(--color-gold); }
+
+/* ── 手機版帳號卡片（已在 acc-mobile-card 中定義）── */
+.acc-mobile-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-card);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: var(--shadow-card);
+}
+.acc-mobile-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.acc-mobile-card-name { font-size: 15px; font-weight: 600; color: var(--color-text-primary); }
+.acc-mobile-card-mail { font-size: 11px; color: var(--color-text-muted); font-family: var(--font-mono); }
+.acc-mobile-card-row  { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 12px; color: var(--color-text-secondary); }
+.acc-mobile-card-detail {
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 6px;
+  padding-top: 10px;
+  border-top: 1px solid var(--color-border-table);
+}
+.acc-mobile-card-detail.open { display: flex; }
+.acc-mobile-card-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+.acc-mobile-card-actions button {
+  font-size: 11px; padding: 5px 10px; border-radius: 6px;
+  cursor: pointer; border: 1px solid var(--color-border-card);
+  background: #fdfcf9; transition: background .15s;
+}
+.acc-mobile-toggle {
+  text-align: right;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  user-select: none;
+}
+/* 桌面版隱藏手機卡片 */
+#acc-mobile-list { display: none; }
+#fb-mobile-list  { display: none; }
+#rp-mobile-list  { display: none; }
 
 </style>
 
@@ -2324,6 +2470,7 @@ html, body {
             <tbody id="fb-tbody"><tr><td colspan="6" style="text-align:center;padding:32px;color:var(--color-text-muted);">⏳ 載入中…</td></tr></tbody>
           </table>
         </div>
+        <div id="fb-mobile-list" style="display:none;"></div>
       </div>
 
       <!-- ════ 問題回報管理 ════ -->
@@ -2359,6 +2506,7 @@ html, body {
             <tbody id="rp-tbody"><tr><td colspan="6" style="text-align:center;padding:32px;color:var(--color-text-muted);">⏳ 載入中…</td></tr></tbody>
           </table>
         </div>
+        <div id="rp-mobile-list" style="display:none;"></div>
       </div>
 
 
@@ -5223,6 +5371,13 @@ function updateRpStats() {
   if(g('rp-done'))    g('rp-done').textContent=done;
 }
 
+function toggleMobInfoCard(id, el) {
+  var d = document.getElementById(id);
+  if (!d) return;
+  d.classList.toggle('open');
+  if (el) el.textContent = d.classList.contains('open') ? '▲ 收起' : '▼ 展開';
+}
+
 function renderFbTable() {
   var tbody=document.getElementById('fb-tbody'); if(!tbody) return;
   var search=((document.getElementById('fb-search')||{}).value||'').toLowerCase();
@@ -5234,7 +5389,13 @@ function renderFbTable() {
   });
   var c=document.getElementById('fb-count'); if(c) c.textContent=filtered.length;
   tbody.innerHTML='';
-  if(!filtered.length){ tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:28px;color:var(--color-text-muted);">無資料</td></tr>'; return; }
+  var mList = document.getElementById('fb-mobile-list');
+  if (mList) mList.innerHTML = '';
+  if(!filtered.length){
+    tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:28px;color:var(--color-text-muted);">無資料</td></tr>';
+    if (mList) mList.innerHTML='<div style="text-align:center;padding:24px;color:var(--color-text-muted);">無資料</div>';
+    return;
+  }
   filtered.forEach(function(r,i){
     var isDone=(r.status||'').indexOf('已處理')>-1||(r.status||'').indexOf('已結案')>-1;
     var sBg=isDone?'#e8f5e9':'#fff8e1'; var sColor=isDone?'#2e7d32':'#d4a017';
@@ -5256,6 +5417,32 @@ function renderFbTable() {
     (function(rec){ vBtn.onclick=function(){ openFbrpDetail(rec,'feedback'); }; })(r);
     lastTd.appendChild(vBtn);
     tbody.appendChild(tr);
+
+    // 手機版卡片
+    if (mList) {
+      var card = document.createElement('div');
+      card.className = 'mob-info-card';
+      var detailId = 'fb-card-'+i;
+      var sLabel = isDone?'已處理':'待處理';
+      card.innerHTML =
+        '<div class="mic-header">' +
+          '<div>' +
+            '<div class="mic-type">'+(r.type||r.category||'—')+'</div>' +
+            '<div class="mic-name">'+(r.name||r.user||'匿名')+'</div>' +
+          '</div>' +
+          '<span class="mic-status" style="background:'+sBg+';color:'+sColor+';">'+sLabel+'</span>' +
+        '</div>' +
+        '<div class="mic-preview">'+content.slice(0,60)+(content.length>60?'…':'')+'</div>' +
+        '<div class="mic-detail" id="'+detailId+'">' +
+          '<div class="mic-meta">🕐 '+timeStr+'</div>' +
+          '<div class="mic-full-content">'+content+'</div>' +
+          '<div class="mic-actions">' +
+            '<button class="mic-btn" onclick="openFbrpDetail('+JSON.stringify(r).replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/'/g,'&#39;')+',' + "'feedback'" + ')">查看 / 處理</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="mic-toggle" onclick="toggleMobInfoCard(\''+detailId+'\',this)">▼ 展開</div>';
+      mList.appendChild(card);
+    }
   });
 }
 
@@ -5270,7 +5457,13 @@ function renderRpTable() {
   });
   var c=document.getElementById('rp-count'); if(c) c.textContent=filtered.length;
   tbody.innerHTML='';
-  if(!filtered.length){ tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:28px;color:var(--color-text-muted);">無資料</td></tr>'; return; }
+  var mList = document.getElementById('rp-mobile-list');
+  if (mList) mList.innerHTML = '';
+  if(!filtered.length){
+    tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:28px;color:var(--color-text-muted);">無資料</td></tr>';
+    if (mList) mList.innerHTML='<div style="text-align:center;padding:24px;color:var(--color-text-muted);">無資料</div>';
+    return;
+  }
   filtered.forEach(function(r,i){
     var isDone=(r.status||'').indexOf('已處理')>-1||(r.status||'').indexOf('已結案')>-1;
     var sBg=isDone?'#e8f5e9':'#fff8e1'; var sColor=isDone?'#2e7d32':'#d4a017';
@@ -5292,6 +5485,32 @@ function renderRpTable() {
     (function(rec){ vBtn.onclick=function(){ openFbrpDetail(rec,'report'); }; })(r);
     lastTd.appendChild(vBtn);
     tbody.appendChild(tr);
+
+    // 手機版卡片
+    if (mList) {
+      var card = document.createElement('div');
+      card.className = 'mob-info-card';
+      var detailId = 'rp-card-'+i;
+      var sLabel = isDone?'已處理':'待處理';
+      card.innerHTML =
+        '<div class="mic-header">' +
+          '<div>' +
+            '<div class="mic-type">'+(r.type||r.category||r.issueType||'—')+'</div>' +
+            '<div class="mic-name">'+(r.name||r.user||'匿名')+'</div>' +
+          '</div>' +
+          '<span class="mic-status" style="background:'+sBg+';color:'+sColor+';">'+sLabel+'</span>' +
+        '</div>' +
+        '<div class="mic-preview">'+desc.slice(0,60)+(desc.length>60?'…':'')+'</div>' +
+        '<div class="mic-detail" id="'+detailId+'">' +
+          '<div class="mic-meta">🕐 '+timeStr+'</div>' +
+          '<div class="mic-full-content">'+desc+'</div>' +
+          '<div class="mic-actions">' +
+            '<button class="mic-btn" onclick="openFbrpDetail('+JSON.stringify(r).replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/'/g,'&#39;')+',' + "'report'" + ')">查看 / 處理</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="mic-toggle" onclick="toggleMobInfoCard(\''+detailId+'\',this)">▼ 展開</div>';
+      mList.appendChild(card);
+    }
   });
 }
 
@@ -5449,7 +5668,14 @@ function onLoginSuccess(user, silent) {
   var chip = document.getElementById('userChip');
   chip.style.display = 'flex';
   document.getElementById('userInitial').textContent = user.name.charAt(0);
-  document.getElementById('userName').textContent = user.name;
+  // 手機版：userName 隱藏第一個字（頭像已顯示），電腦版顯示全名
+  var fullName = user.name;
+  var nameEl = document.getElementById('userName');
+  if (nameEl) {
+    nameEl.textContent = fullName;
+    nameEl.setAttribute('data-full', fullName);
+    nameEl.setAttribute('data-short', fullName.slice(1)); // 去掉第一個字
+  }
 
   // 設定 User Menu
   document.getElementById('um-name').textContent = user.name + '（' + (user.team||'') + ' ' + (user.title||'') + '）';
