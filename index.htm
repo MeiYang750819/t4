@@ -969,26 +969,36 @@ html, body {
     position: sticky;
     top: 0;
     z-index: 9000;
-    padding: 0 var(--space-3);
+    padding: 0 var(--space-2);
     height: 52px;
   }
 
-  /* ── Copyright 顯示（不隱藏）── */
+  /* ── Copyright：手機版只顯示短版 ── */
   .header-subtitle { display: block !important; font-size: 10px; }
-  .header-title  { font-size: 15px; }
+  #header-copyright { font-size: 0 !important; } /* 隱藏完整版本號 */
+  #header-copyright::before {
+    content: '© Copyright 2026 MYs System';
+    font-size: 10px;
+    font-weight: 300;
+    color: var(--color-text-on-dark-sub);
+    letter-spacing: .04em;
+  }
+  .header-title  { font-size: 14px; }
 
-  /* ── Header 右側按鈕：顯示完整文字，調小尺寸 ── */
+  /* ── Header 右側按鈕：去掉符號，只顯示文字，框框加大 ── */
+  .btn-icon { display: none; }           /* 隱藏符號 ！❌ */
+  .btn-text { display: inline; }
   .btn, .btn-feedback, .btn-danger {
     width: auto;
-    min-width: 0;
-    padding: 0 8px;
+    min-width: 56px;
+    padding: 0 10px;
     font-size: 11px;
     height: 30px;
     white-space: nowrap;
     flex-shrink: 0;
   }
 
-  /* ── 右上角 user-chip：橘色頭像已顯示第一字，名字從第二字開始 ── */
+  /* ── 右上角 user-chip ── */
   .user-chip { padding: 4px 10px 4px 6px !important; gap: 5px; }
   #userName { font-size: 0 !important; }
   #userName::before {
@@ -1043,11 +1053,19 @@ html, body {
   /* 新增帳號按鈕顯示 */
   #acc-add-btn {
     display: flex !important;
-    font-size: 12px !important;
+    font-size: 11px !important;
     padding: 0 10px !important;
-    height: 32px !important;
+    height: 30px !important;
     white-space: nowrap;
     flex-shrink: 0;
+    min-width: 0;
+  }
+  /* 帳號管理標題列：不換行，讓按鈕和標題共存 */
+  #page-account > div:first-child > div:first-child {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
   }
 
   /* ── 帳號管理：桌面表格隱藏，卡片顯示 ── */
@@ -1275,13 +1293,15 @@ html, body {
   white-space: nowrap; flex-shrink: 0;
 }
 .mic-preview {
-  font-size: 13px;
-  color: var(--color-text-secondary);
-  line-height: 1.5;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  line-height: 1.4;
+}
+.mic-preview.mic-time {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
 }
 .mic-detail {
   display: none;
@@ -1301,11 +1321,14 @@ html, body {
 }
 .mic-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 .mic-btn {
-  font-size: 11px; padding: 6px 14px;
-  border-radius: 6px; cursor: pointer;
+  font-size: 12px; padding: 8px 18px;
+  border-radius: 8px; cursor: pointer;
   border: 1.5px solid #90caf9;
   background: #deeeff; color: #5b9bd5;
   font-weight: 600; transition: .15s;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  display: inline-block;
 }
 .mic-toggle {
   text-align: right;
@@ -1364,6 +1387,7 @@ html, body {
 #acc-mobile-list { display: none; }
 #fb-mobile-list  { display: none; }
 #rp-mobile-list  { display: none; }
+
 
 </style>
 
@@ -1436,12 +1460,12 @@ html, body {
       <img src="https://mys0819.github.io/AMS/assets/MYs_logo_去背.png" alt="MYs Logo" class="header-logo" style="height:38px;width:auto;opacity:.9;" />
       <div class="header-title-group">
         <span class="header-title">人資行政管理系統</span>
-        <span class="header-subtitle" id="header-copyright">© Copyright 2026 MYs System</span>
+        <span class="header-subtitle" id="header-copyright">© Copyright 2026 MYs System Version:b1.0.0.0-04-13-2026-115</span>
       </div>
     </div>
     <div class="header-right">
-      <button class="btn-feedback" onclick="openFeedback()">！意見欄</button>
-      <button class="btn-danger" onclick="openBugReport()">❌ 回報問題</button>
+      <button class="btn-feedback" onclick="openFeedback()"><span class="btn-icon">！</span><span class="btn-text">意見欄</span></button>
+      <button class="btn-danger" onclick="openBugReport()"><span class="btn-icon">❌</span><span class="btn-text">回報問題</span></button>
       <button onclick="openLoginModal()" id="loginNavBtn" style="height:32px;padding:0 14px;border-radius:20px;border:1.5px solid var(--color-gold);background:var(--color-gold-bg);color:var(--color-gold);font-family:var(--font-body);font-size:12px;font-weight:600;cursor:pointer;transition:.15s;" onmouseover="this.style.background='var(--color-gold)';this.style.color='#1c1c15'" onmouseout="this.style.background='var(--color-gold-bg)';this.style.color='var(--color-gold)'">🔑 登入</button>
       <div class="user-chip" id="userChip" onclick="toggleUserMenu()" style="display:none;"><div class="user-chip-avatar" id="userInitial">?</div><span class="user-chip-name" id="userName">訪客</span></div>
       
@@ -5432,12 +5456,11 @@ function renderFbTable() {
           '</div>' +
           '<span class="mic-status" style="background:'+sBg+';color:'+sColor+';">'+sLabel+'</span>' +
         '</div>' +
-        '<div class="mic-preview">'+content.slice(0,60)+(content.length>60?'…':'')+'</div>' +
+        '<div class="mic-preview mic-time">🕐 '+timeStr+'</div>' +
         '<div class="mic-detail" id="'+detailId+'">' +
-          '<div class="mic-meta">🕐 '+timeStr+'</div>' +
           '<div class="mic-full-content">'+content+'</div>' +
           '<div class="mic-actions">' +
-            '<button class="mic-btn" onclick="openFbrpDetail('+JSON.stringify(r).replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/'/g,'&#39;')+',' + "'feedback'" + ')">查看 / 處理</button>' +
+            '<button class="mic-btn" onclick="openFbrpDetail('+JSON.stringify(r).replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/'/g,'&#39;')+',' + "'feedback'" + ')">處理</button>' +
           '</div>' +
         '</div>' +
         '<div class="mic-toggle" onclick="toggleMobInfoCard(\''+detailId+'\',this)">▼ 展開</div>';
@@ -5500,12 +5523,11 @@ function renderRpTable() {
           '</div>' +
           '<span class="mic-status" style="background:'+sBg+';color:'+sColor+';">'+sLabel+'</span>' +
         '</div>' +
-        '<div class="mic-preview">'+desc.slice(0,60)+(desc.length>60?'…':'')+'</div>' +
+        '<div class="mic-preview mic-time">🕐 '+timeStr+'</div>' +
         '<div class="mic-detail" id="'+detailId+'">' +
-          '<div class="mic-meta">🕐 '+timeStr+'</div>' +
           '<div class="mic-full-content">'+desc+'</div>' +
           '<div class="mic-actions">' +
-            '<button class="mic-btn" onclick="openFbrpDetail('+JSON.stringify(r).replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/'/g,'&#39;')+',' + "'report'" + ')">查看 / 處理</button>' +
+            '<button class="mic-btn" onclick="openFbrpDetail('+JSON.stringify(r).replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/'/g,'&#39;')+',' + "'report'" + ')">處理</button>' +
           '</div>' +
         '</div>' +
         '<div class="mic-toggle" onclick="toggleMobInfoCard(\''+detailId+'\',this)">▼ 展開</div>';
