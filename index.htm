@@ -823,7 +823,7 @@ html, body {
 .login-field    { display:flex;flex-direction:column;gap:5px; }
 .login-label    { font-size:12px;font-weight:500;color:var(--color-text-secondary); }
 .login-email-row{ display:flex;gap:6px; }
-.login-input    { border:1.5px solid var(--color-border-card);border-radius:8px;padding:9px 12px;font-family:var(--font-body);font-size:14px;color:var(--color-text-primary);background:#fff;outline:none;width:100%;transition:.15s; }
+.login-input    { border:1.5px solid var(--color-border-card);border-radius:8px;padding:9px 12px;font-family:var(--font-body);font-size:16px;color:var(--color-text-primary);background:#fff;outline:none;width:100%;transition:.15s; }
 .login-input:focus  { border-color:var(--color-gold);box-shadow:0 0 0 3px var(--color-gold-bg); }
 .login-domain   { border:1.5px solid var(--color-border-card);border-radius:8px;padding:9px 10px;font-family:var(--font-body);font-size:13px;color:var(--color-text-primary);background:#fff;outline:none;cursor:pointer;white-space:nowrap; }
 .login-domain:focus { border-color:var(--color-gold); }
@@ -1035,6 +1035,38 @@ html, body {
   .table-section { overflow-x: auto; }
   .data-table { min-width: 600px; }
 
+  /* ── 申請頁面：手機版顯示卡片，隱藏表格 ── */
+  #page-main      .table-section,
+  #page-myrecords .table-section,
+  #page-monthly   .table-section,
+  #page-monthly-all .table-section { display: none !important; }
+
+  #main-mobile-list,
+  #my-mobile-list,
+  #mon-mobile-list,
+  #mall-mobile-list { display: block !important; }
+
+  /* 手機版分頁按鈕 */
+  #main-mob-pagination,
+  #my-mob-pagination,
+  #mon-mob-pagination,
+  #mall-mob-pagination {
+    display: flex !important;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 8px 0 4px;
+  }
+
+  /* 本月查詢頁：確保可滑動（覆蓋 overflow:hidden）*/
+  #page-monthly-all,
+  #page-monthly-all.active {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    height: auto !important;
+    min-height: 0;
+  }
+
   /* ── 帳號管理 toolbar：搜尋佔多 + 兩個 filter 同排 ── */
   #acc-desktop-table .toolbar {
     flex-wrap: wrap;
@@ -1052,13 +1084,21 @@ html, body {
   }
   /* 新增帳號按鈕顯示 */
   #acc-add-btn {
-    display: flex !important;
-    font-size: 11px !important;
-    padding: 0 10px !important;
-    height: 30px !important;
+    display: inline-flex !important;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px !important;
+    padding: 0 14px !important;
+    height: 32px !important;
     white-space: nowrap;
     flex-shrink: 0;
-    min-width: 0;
+    min-width: max-content;
+    margin-right: 11px;
+    background: var(--color-gold) !important;
+    color: #1c1c15 !important;
+    border: none !important;
+    border-radius: var(--radius-md) !important;
+    font-weight: 600;
   }
   /* 帳號管理標題列：不換行，讓按鈕和標題共存 */
   #page-account > div:first-child > div:first-child {
@@ -1079,13 +1119,13 @@ html, body {
   #rp-mobile-list { display: block !important; }
 
   /* ── Modal ── */
-  .modal-overlay { align-items: flex-end; }
+  .modal-overlay { align-items: center; }  /* 手機版：垂直置中 */
   .form-modal-box,
   .feedback-modal-box,
   .reject-modal-box {
-    max-width: 100vw;
+    max-width: 96vw;
     width: 100%;
-    border-radius: 16px 16px 0 0;
+    border-radius: 14px;
     max-height: 88vh;
     padding: var(--space-4) var(--space-3);
   }
@@ -1093,6 +1133,10 @@ html, body {
   /* ── 文件中心 sidebar ── */
   .doccenter-sidebar { width: 120px; }
   .doccenter-sidebar-item { font-size: 12px; padding: 8px var(--space-2); }
+
+  /* 意見欄 Modal：類型下拉選單限制寬度 */
+  .feedback-type-select { width: 90px !important; max-width: 90px !important; font-size: 11px !important; }
+  .feedback-row-1 { flex-wrap: wrap; gap: 6px; }
 }
 
 
@@ -1129,7 +1173,7 @@ html, body {
   .data-table td, .data-table thead th { font-size: 11px; padding: 6px 6px; }
 
   /* Modal：接近全螢幕 */
-  .modal-overlay { align-items: flex-end; }  /* 從底部彈出 */
+  .modal-overlay { align-items: center; }  /* 480px 以下也垂直置中 */
   .form-modal-box,
   .feedback-modal-box,
   .reject-modal-box {
@@ -1201,6 +1245,7 @@ html, body {
     flex-direction: column;
   }
   .app-body {
+    display: flex;
     flex: 1;
     overflow: hidden;
     flex-direction: column;
@@ -1225,6 +1270,8 @@ html, body {
   justify-content: space-around;
   z-index: 600;
   padding-bottom: env(safe-area-inset-bottom, 0px);
+  overflow: hidden;
+  transition: height .2s ease;
 }
 .mob-nav-item {
   flex: 1;
@@ -1264,6 +1311,7 @@ html, body {
 /* 手機版：底部 nav 出現時 */
 @media (max-width: 768px) {
   #mobile-bottom-nav { display: flex !important; }
+  #mob-nav-toggle-knob { display: flex !important; }
   .app-sidebar        { display: none !important; }
 }
 
@@ -1285,8 +1333,8 @@ html, body {
   justify-content: space-between;
   gap: 8px;
 }
-.mic-type  { font-size: 11px; font-weight: 600; color: var(--color-text-muted); margin-bottom: 2px; }
-.mic-name  { font-size: 15px; font-weight: 600; color: var(--color-text-primary); }
+.mic-type  { font-size: 15px; font-weight: 700; color: var(--color-text-primary); margin-bottom: 2px; }
+.mic-name  { font-size: 12px; font-weight: 500; color: var(--color-text-muted); }
 .mic-status {
   font-size: 10px; font-weight: 700;
   padding: 3px 10px; border-radius: 10px;
@@ -1387,7 +1435,111 @@ html, body {
 #acc-mobile-list { display: none; }
 #fb-mobile-list  { display: none; }
 #rp-mobile-list  { display: none; }
+#main-mobile-list,
+#my-mobile-list,
+#mon-mobile-list,
+#mall-mobile-list { display: none; }
+#main-mob-pagination,
+#my-mob-pagination,
+#mon-mob-pagination,
+#mall-mob-pagination { display: none; }
 
+/* ── 申請卡片（手機版）── */
+.mob-app-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-card);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: var(--shadow-card);
+}
+#rp-mobile-list  { display: none; }
+
+
+
+/* ============================================================
+   手機版：數據分析橫向滑動 + Tab篩選顯示
+   ============================================================ */
+
+@media (max-width: 768px) {
+
+  /* ── 數據分析統計卡片：每次顯示4個，橫向 scroll ── */
+  #page-analytics .ana-stats-row {
+    display: flex !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    gap: 6px;
+    padding: 10px 16px 6px; /* 左右對齊圖表列 */
+    scrollbar-width: none;
+    grid-template-columns: unset !important;
+  }
+  #page-analytics .ana-stats-row::-webkit-scrollbar { display: none; }
+  #page-analytics .ana-stats-row > div {
+    flex: 0 0 calc(25% - 5px); /* 4個一排 */
+    scroll-snap-align: start;
+    min-width: 72px;
+  }
+
+  /* ── 數據分析圖表：每次顯示1個，置中，橫向 scroll ── */
+  #page-analytics .ana-charts-row {
+    display: flex !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    gap: 12px;
+    padding: 10px 16px;
+    scrollbar-width: none;
+    grid-template-columns: unset !important;
+    flex-shrink: 0;
+  }
+  #page-analytics .ana-charts-row::-webkit-scrollbar { display: none; }
+  /* 每個圖表卡片佔全寬（手機一次看一個）*/
+  #page-analytics .ana-chart-slide {
+    flex: 0 0 calc(100vw - 56px) !important;
+    scroll-snap-align: center;
+    min-width: 0;
+    max-width: calc(100vw - 56px);
+  }
+
+  /* ── 數據分析頁：允許滑動 ── */
+  #page-analytics,
+  #page-analytics.active {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* ── 申請 Tab 篩選列：手機版完整顯示 ── */
+  #page-main      .tab-bar,
+  #page-myrecords .tab-bar,
+  #page-monthly   .tab-bar,
+  #page-monthly-all .tab-bar {
+    display: flex !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: var(--radius-lg) !important;
+    border: 1.5px solid var(--color-border-card) !important;
+    border-bottom: 1.5px solid var(--color-border-card) !important;
+    margin-bottom: 10px;
+    margin-top: 4px;
+    box-shadow: var(--shadow-card);
+    flex-shrink: 0;
+  }
+  #page-main      .tab-bar .tab-item,
+  #page-myrecords .tab-bar .tab-item,
+  #page-monthly   .tab-bar .tab-item,
+  #page-monthly-all .tab-bar .tab-item {
+    flex: 1;
+    min-width: 72px;
+    font-size: 12px;
+    height: 42px;
+    font-weight: 600;
+    border-bottom: none !important;
+  }
+}
 
 </style>
 
@@ -1415,10 +1567,12 @@ html, body {
     <div class="login-field">
       <label class="login-label">電子信箱</label>
       <div style="position:relative;">
-        <input class="login-input" id="login-mail" type="email"
+        <input class="login-input" id="login-mail" type="text"
+          inputmode="email"
           placeholder="example@gmail.com"
-          autocomplete="email"
+          autocomplete="username"
           oninput="updateMailSuggestions()"
+          onblur="setTimeout(function(){var d=document.getElementById('login-mail-dropdown');if(d)d.style.display='none';},200)"
           onkeydown="if(event.key==='Enter')document.getElementById('login-pass').focus()"
           style="padding-right:12px;font-size:16px;"/>
         <div id="login-mail-dropdown" style="display:none;position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:1.5px solid var(--color-gold);border-radius:8px;z-index:100;box-shadow:0 4px 12px rgba(0,0,0,.12);overflow:hidden;"></div>
@@ -1560,6 +1714,16 @@ html, body {
         <span class="mob-nav-icon">🔧</span><span class="mob-nav-label">管理</span>
       </a>
     </nav>
+
+    <!-- 底部導覽列折疊凸點（獨立 fixed 元素，不影響其他頁面）-->
+    <div id="mob-nav-toggle-knob"
+         onclick="toggleMobNav()"
+         style="display:none;position:fixed;bottom:58px;left:50%;transform:translateX(-50%);
+                width:48px;height:16px;background:#2a2a1e;border:1px solid #3a3a2a;
+                border-radius:8px 8px 0 0;align-items:center;justify-content:center;
+                cursor:pointer;z-index:599;-webkit-tap-highlight-color:transparent;">
+      <span id="mob-nav-knob-icon" style="font-size:10px;color:#9a9680;line-height:1;">▼</span>
+    </div>
 
     <!-- 手機選單：展開式子選單 -->
     <div id="mob-submenu-overlay" onclick="mobNavClose()" style="display:none;position:fixed;inset:0;z-index:590;background:rgba(0,0,0,.45);"></div>
@@ -1744,6 +1908,8 @@ html, body {
             <div class="pagination" id="paginationBar"></div>
           </div>
         </div>
+        <div id="main-mobile-list" style="display:none;padding:4px 0;"></div>
+        <div id="main-mob-pagination" style="display:none;"></div>
       </div><!-- end page-main -->
 
             <!-- ════ 文件中心 ════ -->
@@ -1771,9 +1937,9 @@ html, body {
               <div class="doccenter-sidebar-item" onclick="dcSwitch(this,'announce')">📢 企業公告<span class="doccenter-count" id="cnt-announce">0</span></div>
               <div class="doccenter-sidebar-item" onclick="dcSwitch(this,'law')">📜 法規公告<span class="doccenter-count" id="cnt-law">0</span></div>
               <div class="doccenter-sidebar-item" onclick="dcSwitch(this,'meeting')">📝 會議紀錄<span class="doccenter-count" id="cnt-meeting">0</span></div>
-              <div class="doccenter-sidebar-item" onclick="dcSwitch(this,'other')">🧭 其他<span class="doccenter-count" id="cnt-other">0</span></div>
+              <div class="doccenter-sidebar-item" onclick="dcSwitch(this,'other')">🧭 其他事項<span class="doccenter-count" id="cnt-other">0</span></div>
               <div class="doccenter-sidebar-spacer"></div>
-              <button class="doccenter-add-cat-btn" onclick="dcAddCategory()">＋ 新增分類</button>
+              <button class="doccenter-add-cat-btn" id="dc-add-cat-btn" onclick="dcAddCategory()">＋ 新增分類</button>
             </div>
             <!-- 右側內容 -->
             <div class="doccenter-content" id="dc-content-view">
@@ -1807,8 +1973,14 @@ html, body {
 
           <!-- 標題列（跟文件中心同高）-->
           <div class="inner-page-header" style="border-bottom-color:#c9a84c;background-color:#2a2a2a;">
-            <p id="analytics-main-title" class="inner-page-title" style="color:#e8e4d8;">📊 2026年 05月 數據分析</p>
-            <div style="display:flex;align-items:center;gap:8px;">
+            <div style="display:flex;align-items:center;gap:10px;flex:1;min-width:0;">
+              <span style="font-size:28px;flex-shrink:0;">📊</span>
+              <div style="display:flex;flex-direction:column;min-width:0;">
+                <p id="analytics-main-title" class="inner-page-title" style="color:#e8e4d8;font-size:14px;line-height:1.3;margin:0;">2026年 05月</p>
+                <span style="font-size:12px;color:#c9a84c;font-weight:700;letter-spacing:.06em;white-space:nowrap;">數據圖表分析</span>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
               <span style="color:#9a9680;font-size:11px;">年度</span>
               <select id="anaYear" onchange="updateAnalytics()" style="height:26px;padding:0 6px;border-radius:5px;border:1px solid #555;background:#3a3a3a;color:#e8e4d8;font-size:11px;width:62px;">
                 <option value="2025">2025</option><option value="2026" selected>2026</option><option value="2027">2027</option>
@@ -1823,7 +1995,7 @@ html, body {
           </div>
 
           <!-- 統計摘要列：總申請 + 7種假別 -->
-          <div style="display:grid;grid-template-columns:repeat(8,1fr);gap:8px;padding:10px 18px 0;flex-shrink:0;">
+          <div class="ana-stats-row" style="display:grid;grid-template-columns:repeat(8,1fr);gap:8px;padding:10px 18px 0;flex-shrink:0;">
             <div style="background:#333;border:1px solid #4a4a4a;border-radius:8px;padding:8px 10px;text-align:center;">
               <div style="font-size:11px;color:#9a9680;margin-bottom:2px;">總申請</div>
               <div style="font-size:20px;font-weight:700;color:#e8e4d8;" id="ana-total" style="color:#c9a84c;">—</div>
@@ -1867,10 +2039,10 @@ html, body {
           </div>
 
           <!-- 上半：4欄圖表 -->
-          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:14px 18px 0;flex-shrink:0;">
+          <div class="ana-charts-row" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:14px 18px 0;flex-shrink:0;">
 
             <!-- C1: 申請類型 環狀圖 + 引線標籤 -->
-            <div style="background:#333;border:1px solid #4a4a4a;border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:8px;">
+            <div class="ana-chart-slide" style="background:#333;border:1px solid #4a4a4a;border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:8px;">
               <p style="font-size:12px;font-weight:600;color:#e8e4d8;text-align:center;width:100%;">申請類型分布</p>
               <div style="width:100%;display:flex;justify-content:center;">
                 <svg id="ana-type-chart" viewBox="-80 -70 360 340" style="width:100%;max-width:300px;overflow:visible;">
@@ -1883,7 +2055,7 @@ html, body {
             </div>
 
             <!-- C2: 部門×假別 雙環 -->
-            <div style="background:#333;border:1px solid #4a4a4a;border-radius:10px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:8px;">
+            <div class="ana-chart-slide" style="background:#333;border:1px solid #4a4a4a;border-radius:10px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:8px;">
               <p style="font-size:12px;font-weight:600;color:#e8e4d8;text-align:center;width:100%;">部門 × 假別</p>
               <div style="width:100%;display:flex;justify-content:center;">
                 <svg id="ana-dual-ring-svg" viewBox="0 0 200 200" style="width:100%;max-width:200px;">
@@ -1900,14 +2072,14 @@ html, body {
               </div>
             </div>
             <!-- C3: 假別量 -->
-            <div style="background:#333;border:1px solid #4a4a4a;border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:10px;">
+            <div class="ana-chart-slide" style="background:#333;border:1px solid #4a4a4a;border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:10px;">
               <p style="font-size:12px;font-weight:600;color:#e8e4d8;text-align:center;">假別申請量</p>
               <div id="ana-leave-bars" style="display:flex;flex-direction:column;flex:1;height:100%;gap:0;overflow-y:auto;">
               </div>
             </div>
 
             <!-- C4: 申請狀態 -->
-            <div style="background:#333;border:1px solid #4a4a4a;border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:10px;">
+            <div class="ana-chart-slide" style="background:#333;border:1px solid #4a4a4a;border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:10px;">
               <p style="font-size:12px;font-weight:600;color:#e8e4d8;text-align:center;">申請狀態分布</p>
               <div id="ana-status-bars" style="display:flex;flex-direction:column;gap:11px;">
                 <div><div style="display:flex;justify-content:space-between;font-size:10px;color:#c8c4b4;margin-bottom:3px;"><span>⏳ 進行中</span><span style="color:#c9a84c;font-weight:600;">6件，40%</span></div><div style="height:9px;background:#222;border-radius:999px;overflow:hidden;"><div style="width:40%;height:100%;background:linear-gradient(90deg,#c9a84c,#d4b96a);border-radius:999px;"></div></div></div>
@@ -1917,13 +2089,9 @@ html, body {
                 <div><div style="display:flex;justify-content:space-between;font-size:10px;color:#c8c4b4;margin-bottom:3px;"><span>❌ 已退件</span><span style="color:#f44336;font-weight:600;">1件，7%</span></div><div style="height:9px;background:#222;border-radius:999px;overflow:hidden;"><div style="width:7%;height:100%;background:linear-gradient(90deg,#f44336,#ef9a9a);border-radius:999px;"></div></div></div>
               </div>
             </div>
-          </div>
 
-          <!-- 下半：折線圖 + 部門明細 -->
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px 18px 14px;flex:1;min-height:0;">
-
-            <!-- 折線圖 -->
-            <div style="background:#333;border:1px solid #4a4a4a;border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:10px;">
+            <!-- C5: 每週申請趨勢 -->
+            <div class="ana-chart-slide" style="background:#333;border:1px solid #4a4a4a;border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:10px;">
               <p id="ana-trend-title" style="font-size:12px;font-weight:600;color:#e8e4d8;text-align:center;">全年度每月申請趨勢</p>
               <div style="flex:1;min-height:0;display:flex;align-items:stretch;">
                 <svg id="ana-trend-svg" viewBox="0 0 500 150" style="width:100%;overflow:visible;" preserveAspectRatio="xMidYMid meet">
@@ -1987,7 +2155,7 @@ html, body {
             </div>
 
             <!-- 各部門申請明細 -->
-            <div style="background:#333;border:1px solid #4a4a4a;border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:12px;">
+            <div class="ana-chart-slide" style="background:#333;border:1px solid #4a4a4a;border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:12px;">
               <p style="font-size:12px;font-weight:600;color:#e8e4d8;text-align:center;">各部門申請明細</p>
               <div id="ana-dept-list" style="display:flex;flex-direction:column;justify-content:space-around;flex:1;gap:0;">
 
@@ -2043,6 +2211,7 @@ html, body {
             </div>
 
           </div><!-- end 下半 -->
+          </div><!-- end 合一橫向滑動列 -->
         </div>
       </div>
 
@@ -2195,6 +2364,8 @@ html, body {
           </table>
           <div class="table-footer"><div class="pagination" id="my-pagination"></div></div>
         </div>
+        <div id="my-mobile-list" style="display:none;padding:4px 0;"></div>
+        <div id="my-mob-pagination" style="display:none;"></div>
 
       </div>
 
@@ -2322,6 +2493,8 @@ html, body {
           </table>
           <div class="table-footer"><div class="pagination" id="mon-pagination"></div></div>
         </div>
+        <div id="mon-mobile-list" style="display:none;padding:4px 0;"></div>
+        <div id="mon-mob-pagination" style="display:none;"></div>
       </div>
 
       <!-- ════ 本月查詢 ════ -->
@@ -2460,6 +2633,8 @@ html, body {
           </table>
           <div class="table-footer"><div class="pagination" id="mall-pagination"></div></div>
         </div>
+        <div id="mall-mobile-list" style="display:none;padding:4px 0;"></div>
+        <div id="mall-mob-pagination" style="display:none;"></div>
       </div><!-- end page-monthly-all -->
 
       <div class="page-section" id="page-feedback-mgr" style="gap:var(--space-4);">
@@ -3418,7 +3593,7 @@ var dcPage       = 1;
 var DC_LIST_PER  = 7;
 var DC_GRID_PER  = 12;
 var DC_PER_PAGE  = 7;
-var dcCatLabels  = {all:'全部文件',hr:'人事相關',admin:'行政表單',training:'教育訓練',announce:'企業公告',law:'法規公告',other:'其他'};
+var dcCatLabels  = {all:'全部文件',hr:'人事相關',admin:'行政表單',training:'教育訓練',announce:'企業公告',law:'法規公告',other:'其他事項'};
 var dcDlStyle    = 'display:inline-flex;align-items:center;gap:4px;height:28px;padding:0 12px;border-radius:4px;border:1px solid #666;background-color:#555;color:#c9a84c;font-family:var(--font-body);font-size:12px;font-weight:500;text-decoration:none;white-space:nowrap;';
 
 /* ── 讀取文件列表（從 GAS）── */
@@ -3534,6 +3709,9 @@ function dcBuildFileList(files) {
   if (!area || !grid) return;
   area.innerHTML = '';
   grid.innerHTML = '';
+  var isAdmin = CURRENT_USER && (CURRENT_USER.role === 'admin' || CURRENT_USER.role === 'boss');
+  var delBtnHtml  = isAdmin ? '<button class="dc-del-btn" onclick="dcDeleteItem(this)" title="刪除">✕</button>' : '';
+  var delCardHtml = isAdmin ? '<button class="dc-card-del-btn" onclick="dcDeleteCard(this)" title="刪除">✕</button>' : '';
 
   // 更新分類計數（用中文→key對應）
   var counts = {all:0,hr:0,admin:0,training:0,announce:0,law:0,other:0};
@@ -3550,7 +3728,7 @@ function dcBuildFileList(files) {
   files.forEach(function(f){
     // f.cat 是中文，轉成 key 給 data-cat（供分類過濾用）
     var catKey   = dcLabelToKey[f.cat] || 'other';
-    var tagLabel = f.cat || '其他';
+    var tagLabel = f.cat === '其他' ? '其他事項' : (f.cat || '其他事項');
     var icon     = dcFileIcon(f.name); // 🖼️ 圖片 / 📋 PDF / 📄 其他
     var dlUrl    = 'https://drive.google.com/uc?export=download&id=' + f.fileId;
     var viewUrl  = 'https://drive.google.com/file/d/' + f.fileId + '/preview';
@@ -3568,16 +3746,16 @@ function dcBuildFileList(files) {
       '<div class="doccenter-file-info">' +
         '<span class="doccenter-file-name">' + dcStripExt(f.name) + '</span>' +
         '<div class="doccenter-file-meta">' +
-          '<span class="doccenter-file-tag">' + tagLabel + '</span>' +
           '<span style="white-space:nowrap;">' + dcFormatDate(f.date) + '</span>' +
           '<span style="white-space:nowrap;">' + f.size + ' MB</span>' +
         '</div>' +
       '</div>' +
+      '<span class="doccenter-file-tag" style="flex-shrink:0;align-self:center;">' + tagLabel + '</span>' +
       '<div class="file-action-btns" style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">' +
         (canPreview ? '<button style="'+dcDlStyle.replace('text-decoration:none','')+'border:1px solid #555;border-radius:5px;background:#444;cursor:pointer;font-size:11px;height:26px;padding:0 8px;white-space:nowrap;" onclick="dcPreviewFile(\''+f.fileId+'\',\''+f.name+'\')">👁 預覽</button>' : '') +
         '<a style="'+dcDlStyle+'font-size:11px;height:26px;padding:0 8px;display:flex;align-items:center;justify-content:center;" href="'+dlUrl+'" target="_blank">⬇ 下載</a>' +
       '</div>' +
-      '<button class="dc-del-btn" onclick="dcDeleteItem(this)" title="刪除">✕</button>';
+      delBtnHtml;
     area.appendChild(li);
 
     // 圖示模式
@@ -3590,7 +3768,7 @@ function dcBuildFileList(files) {
       '<span class="doccenter-card-name">' + dcStripExt(f.name) + '</span>' +
       '<span class="doccenter-card-date">' + dcFormatDate(f.date) + '</span>' +
       '<a class="doccenter-card-dl" href="' + dlUrl + '" target="_blank">⬇</a>' +
-      '<button class="dc-card-del-btn" onclick="dcDeleteCard(this)" title="刪除">✕</button>';
+      delCardHtml;
     (function(id, nm){ gc.addEventListener('click', function(){ if(canPreview) dcPreviewFile(id, nm); }); })(f.fileId, f.name);
     grid.appendChild(gc);
   });
@@ -3838,7 +4016,7 @@ function dcAddCategory(){
 }
 
 /* ══ 資料夾 compat ══ */
-var folderTitles = {all:'全部文件',hr:'人事相關',finance:'財務報表',law:'法規公告',training:'教育訓練',other:'其他'};
+var folderTitles = {all:'全部文件',hr:'人事相關',finance:'財務報表',law:'法規公告',training:'教育訓練',other:'其他事項'};
 function switchFolder(el, cat) {
   document.querySelectorAll('.folder-sidebar-item').forEach(function(i){i.classList.remove('active');});
   el.classList.add('active');
@@ -4016,7 +4194,7 @@ function updateAnalytics() {
   var month = (document.getElementById('anaMonth') || {}).value || String(new Date().getMonth()+1).padStart(2,'0');
   var title = document.getElementById('analytics-main-title');
   var trendTitle = document.getElementById('ana-trend-title');
-  if (title) title.textContent = '📊 ' + year + '年 ' + (anaAllMode ? '全年度' : month + '月') + ' 數據分析';
+  if (title) title.textContent = year + '年 ' + (anaAllMode ? '全年度' : month + '月');
   if (trendTitle) trendTitle.textContent = anaAllMode ? '全年度每月申請趨勢' : month + '月 每週申請趨勢';
 
   // 若 ALL_APPS_DATA 是空的，先抓取
@@ -4692,6 +4870,52 @@ function updateMainStats(apps) {
   if(mainTabReject) mainTabReject.textContent = reject;
 }
 
+/* ══ 手機申請卡片 ══ */
+var MOB_APP_DATA = {};
+
+function mobAppCardOpen(key) {
+  var d = MOB_APP_DATA[key];
+  if (!d) return;
+  openFlowModal(d);
+}
+
+function buildAppMobileCard(a, listEl, prefix, idx) {
+  if (!listEl) return;
+  var s = a.status || '';
+  var isDone   = s.indexOf('完成') > -1 || s.indexOf('已完成') > -1;
+  var isReject = s.indexOf('退件') > -1;
+  var sBg    = isDone ? '#e8f5e9' : isReject ? '#fce4e4' : '#fff8e1';
+  var sColor = isDone ? '#2e7d32' : isReject ? '#c62828' : '#d4a017';
+  var sLabel = isDone ? '已完成' : isReject ? '已退件' : s.indexOf('覆核') > -1 ? '待覆核' : '待審核';
+  var isQuit = (a.type||'').indexOf('合意離職') > -1;
+  var dateStr = isQuit
+    ? fmtDateOnly(a.startDate||a.endDate||a.quitPlanDate)
+    : fmtDRange(a.startDate, a.endDate);
+  var subtype = a.subtype || a.type || '—';
+  var proofHtml = proofBadge(a);  // 附件狀態（含無須附件判斷）
+  var cardKey = prefix + '-' + idx;
+  MOB_APP_DATA[cardKey] = a;
+
+  var card = document.createElement('div');
+  card.className = 'mob-app-card';
+  card.innerHTML =
+    '<div class="mob-app-card-header">' +
+      '<div style="min-width:0;">' +
+        '<div style="font-size:11px;font-weight:600;color:var(--color-text-muted);margin-bottom:2px;">' + subtype + '</div>' +
+        '<div style="font-size:15px;font-weight:600;color:var(--color-text-primary);">' + (a.name||'—') +
+          '<span style="font-size:11px;color:var(--color-text-muted);margin-left:6px;">' + (a.team||'') + '</span>' +
+        '</div>' +
+      '</div>' +
+      '<span style="font-size:10px;font-weight:700;padding:3px 10px;border-radius:8px;white-space:nowrap;flex-shrink:0;background:'+sBg+';color:'+sColor+';">'+sLabel+'</span>' +
+    '</div>' +
+    '<div style="font-size:12px;color:var(--color-text-muted);font-family:var(--font-mono);">' + dateStr + '</div>' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;">' +
+      proofHtml +
+      '<button onclick="mobAppCardOpen(\''+cardKey+'\')" style="font-size:11px;padding:6px 16px;border-radius:6px;cursor:pointer;border:1.5px solid #90caf9;background:#deeeff;color:#5b9bd5;font-weight:600;-webkit-tap-highlight-color:transparent;">查看進度</button>' +
+    '</div>';
+  listEl.appendChild(card);
+}
+
 function renderMainTable(apps) {
   var tbody = document.getElementById('tableBody');
   if (!tbody) return;
@@ -4716,6 +4940,7 @@ function renderMainTable(apps) {
   tbody.innerHTML = '';
   if (!paged.length) {
     tbody.innerHTML = '<tr><td colspan="11" style="text-align:center;padding:28px;color:var(--color-text-muted);">無申請資料</td></tr>';
+    _renderAppMobileList('main-mobile-list', [], 'main');
     return;
   }
   var userRole = CURRENT_USER ? CURRENT_USER.role : 'guest';
@@ -4817,7 +5042,37 @@ function renderMainTable(apps) {
     }
   }); // end apps.forEach
   // 手機版卡片
+  _renderAppMobileList('main-mobile-list', paged, 'main');
 } // end renderMainTable
+
+function _renderAppMobileList(listId, paged, prefix) {
+  var mList = document.getElementById(listId);
+  if (!mList) return;
+  mList.innerHTML = '';
+  if (!paged.length) {
+    mList.innerHTML = '<div style="text-align:center;padding:24px;color:var(--color-text-muted);">無申請資料</div>';
+  } else {
+    paged.forEach(function(a, i) { buildAppMobileCard(a, mList, prefix, i); });
+  }
+  // 同步分頁按鈕到手機版分頁容器
+  var srcBar = document.getElementById(
+    prefix === 'main' ? 'paginationBar' :
+    prefix === 'my'   ? 'my-pagination' :
+    prefix === 'mon'  ? 'mon-pagination' : 'mall-pagination'
+  );
+  var mobBar = document.getElementById(prefix + '-mob-pagination');
+  if (mobBar && srcBar) {
+    mobBar.innerHTML = srcBar.innerHTML;
+    // 複製按鈕的 onclick（分頁按鈕用 innerHTML 複製不會帶 event，需重新綁定）
+    var btns = mobBar.querySelectorAll('.page-btn');
+    var srcBtns = srcBar.querySelectorAll('.page-btn');
+    btns.forEach(function(btn, idx) {
+      if (srcBtns[idx]) {
+        btn.onclick = srcBtns[idx].onclick;
+      }
+    });
+  }
+}
 
 
 function filterTable() {
@@ -5115,7 +5370,12 @@ function renderMyTable() {
   if (piEl) piEl.textContent = myCurrentPage + ' / ' + totalPage + '，共 ' + total + ' 筆';
 
   var noData = '<tr><td colspan="11" style="text-align:center;padding:32px;color:var(--color-text-muted);">無符合申請紀錄</td></tr>';
-  if (!filtered.length) { tbody.innerHTML = noData; renderMyPagination(1, 0); return; }
+  if (!filtered.length) {
+    tbody.innerHTML = noData;
+    renderMyPagination(1, 0);
+    _renderAppMobileList('my-mobile-list', [], 'my');
+    return;
+  }
 
   var start = (myCurrentPage - 1) * PER_PAGE;
   var paged = filtered.slice(start, start + PER_PAGE);
@@ -5159,7 +5419,7 @@ function renderMyTable() {
     tbody.appendChild(tr);
   });
   renderMyPagination(totalPage, total);
-  // 手機版卡片
+  _renderAppMobileList('my-mobile-list', paged, 'my');
 }
 
 function renderMyPagination(totalPage, total) {
@@ -5379,8 +5639,11 @@ function loadReportMgr() {
 
 function updateFbStats() {
   var total=FB_DATA.length, pending=0, done=0;
-  FB_DATA.forEach(function(r){ if((r.status||'').indexOf('已處理')>-1) done++; else pending++; });
   var g=function(id){return document.getElementById(id);};
+  FB_DATA.forEach(function(r){
+    var s=r.status||'';
+    if(s.indexOf('已處理')>-1 || s.indexOf('已結案')>-1) done++; else pending++;
+  });
   if(g('fb-total'))   g('fb-total').textContent=total;
   if(g('fb-pending')) g('fb-pending').textContent=pending;
   if(g('fb-done'))    g('fb-done').textContent=done;
@@ -5388,11 +5651,23 @@ function updateFbStats() {
 
 function updateRpStats() {
   var total=RP_DATA.length, pending=0, done=0;
-  RP_DATA.forEach(function(r){ if((r.status||'').indexOf('已處理')>-1) done++; else pending++; });
   var g=function(id){return document.getElementById(id);};
+  RP_DATA.forEach(function(r){
+    var s=r.status||'';
+    if(s.indexOf('已處理')>-1 || s.indexOf('已結案')>-1) done++; else pending++;
+  });
   if(g('rp-total'))   g('rp-total').textContent=total;
   if(g('rp-pending')) g('rp-pending').textContent=pending;
   if(g('rp-done'))    g('rp-done').textContent=done;
+}
+
+/* 手機卡片資料暫存（避免 onclick inline JSON 特殊字元問題）*/
+var MOB_CARD_DATA = {};
+
+function mobCardOpen(key) {
+  var d = MOB_CARD_DATA[key];
+  if (!d) return;
+  openFbrpDetail(d.rec, d.type);
 }
 
 function toggleMobInfoCard(id, el) {
@@ -5447,6 +5722,8 @@ function renderFbTable() {
       var card = document.createElement('div');
       card.className = 'mob-info-card';
       var detailId = 'fb-card-'+i;
+      var cardKey = 'fb-'+Date.now()+'-'+i;
+      MOB_CARD_DATA[cardKey] = { rec: r, type: 'feedback' };
       var sLabel = isDone?'已處理':'待處理';
       card.innerHTML =
         '<div class="mic-header">' +
@@ -5460,7 +5737,7 @@ function renderFbTable() {
         '<div class="mic-detail" id="'+detailId+'">' +
           '<div class="mic-full-content">'+content+'</div>' +
           '<div class="mic-actions">' +
-            '<button class="mic-btn" onclick="openFbrpDetail('+JSON.stringify(r).replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/'/g,'&#39;')+',' + "'feedback'" + ')">處理</button>' +
+            '<button class="mic-btn" onclick="mobCardOpen(\''+cardKey+'\')">查看</button>' +
           '</div>' +
         '</div>' +
         '<div class="mic-toggle" onclick="toggleMobInfoCard(\''+detailId+'\',this)">▼ 展開</div>';
@@ -5514,6 +5791,8 @@ function renderRpTable() {
       var card = document.createElement('div');
       card.className = 'mob-info-card';
       var detailId = 'rp-card-'+i;
+      var cardKey = 'rp-'+Date.now()+'-'+i;
+      MOB_CARD_DATA[cardKey] = { rec: r, type: 'report' };
       var sLabel = isDone?'已處理':'待處理';
       card.innerHTML =
         '<div class="mic-header">' +
@@ -5527,7 +5806,7 @@ function renderRpTable() {
         '<div class="mic-detail" id="'+detailId+'">' +
           '<div class="mic-full-content">'+desc+'</div>' +
           '<div class="mic-actions">' +
-            '<button class="mic-btn" onclick="openFbrpDetail('+JSON.stringify(r).replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/'/g,'&#39;')+',' + "'report'" + ')">處理</button>' +
+            '<button class="mic-btn" onclick="mobCardOpen(\''+cardKey+'\')">查看</button>' +
           '</div>' +
         '</div>' +
         '<div class="mic-toggle" onclick="toggleMobInfoCard(\''+detailId+'\',this)">▼ 展開</div>';
@@ -5571,11 +5850,17 @@ function markFbrpDone() {
   var action = FBRP_TYPE==='feedback' ? 'updateFeedback' : 'updateReport';
   var markBtn=document.getElementById('fbrp-mark-btn');
   if(markBtn) { markBtn.disabled=true; markBtn.textContent='⏳ 更新中…'; }
+  var recId = FBRP_CURRENT.id||FBRP_CURRENT.rowId;
   fetch(GAS_URL, {
     method:'POST', mode:'no-cors',
-    body: JSON.stringify({ action:action, id:FBRP_CURRENT.id||FBRP_CURRENT.rowId, status:'已處理' })
+    body: JSON.stringify({ action:action, id:recId, status:'已處理' })
   })
   .then(function(){
+    // 同步更新 FB_DATA / RP_DATA 裡的原始物件，確保電腦版與手機版都即時更新
+    var dataArr = FBRP_TYPE==='feedback' ? FB_DATA : RP_DATA;
+    dataArr.forEach(function(r){
+      if ((r.id||r.rowId) === recId) r.status = '已處理';
+    });
     FBRP_CURRENT.status = '已處理';
     showToastGlobal('✅ 已標記為已處理','ok');
     closeModal('fbrpDetailModal');
@@ -5705,6 +5990,20 @@ function onLoginSuccess(user, silent) {
 
   // 立即套用權限（同步）
   applyPermissions(user.role);
+  // 手機版：根據角色隱藏不適用的底部 nav tabs
+  var restrictedRoles = ['parttime','fulltime','employee'];
+  var restrictedNavTabs = ['mnav-系統','mnav-功能','mnav-管理'];
+  if (restrictedRoles.indexOf(user.role) > -1) {
+    restrictedNavTabs.forEach(function(id){
+      var el = document.getElementById(id);
+      if (el) el.style.display = 'none';
+    });
+  } else {
+    restrictedNavTabs.forEach(function(id){
+      var el = document.getElementById(id);
+      if (el) el.style.display = '';
+    });
+  }
   initGjCard();
   initAllMonthBtn();
   initMyAllYearBtn();
@@ -5775,6 +6074,12 @@ function applyPermissions(role) {
     item.style.cursor        = '';
   });
 
+  // 文件中心新增分類：只有 admin/boss 才顯示
+  var dcAddBtn = document.getElementById('dc-add-cat-btn');
+  if (dcAddBtn) {
+    dcAddBtn.style.display = (role === 'admin' || role === 'boss') ? '' : 'none';
+  }
+
   // sidebar section 標題：若整個 section 的項目都隱藏，則隱藏標題
   document.querySelectorAll('.sidebar-section').forEach(function(sec){
     var items = sec.querySelectorAll('.sidebar-nav-item');
@@ -5793,6 +6098,8 @@ function applyPermissions(role) {
     }
   });
 }
+var MAIL_DOMAINS = ['gmail.com','yahoo.com.tw','yahoo.com','outlook.com','hotmail.com','icloud.com','msn.com'];
+
 function updateMailSuggestions() {
   var mailEl = document.getElementById('login-mail');
   var val    = mailEl ? mailEl.value : '';
@@ -6373,37 +6680,73 @@ function openReview(id, name, type, readOnly) {
 /* ══ 手機底部導覽 ── 展開式子選單 ══ */
 var MOB_MENUS = {
   '文件': [
-    { icon:'🗂', label:'文件中心', action:function(){ showPage('doccenter', null); } }
+    { icon:'🗂', label:'文件中心', perm:'doccenter', action:function(){ showPage('doccenter', null); } }
   ],
   '申請': [
-    { icon:'📝', label:'請假申請',     action:function(){ window.open('application-forms.html','_blank'); } },
-    { icon:'📂', label:'申請紀錄',     action:function(){ showPage('myrecords', null); } },
-    { icon:'🚨', label:'本月紀錄',     action:function(){ showPage('monthly', null); } },
-    { icon:'📋', label:'線上表單申請', action:function(){ showPage('extraops', null); } }
+    { icon:'📝', label:'請假申請',     perm:'leave',    action:function(){ window.open('application-forms.html','_blank'); } },
+    { icon:'📂', label:'申請紀錄',     perm:'myrecords',action:function(){ showPage('myrecords', null); } },
+    { icon:'🚨', label:'本月紀錄',     perm:'monthly',  action:function(){ showPage('monthly', null); } },
+    { icon:'📋', label:'線上表單申請', perm:'extraops', action:function(){ showPage('extraops', null); } }
   ],
   '系統': [
-    { icon:'🕐', label:'每日工時登記', action:function(){ showPage('workhour', null); } },
-    { icon:'📑', label:'勞報稅務建檔', action:function(){ showPage('labor', null); } },
-    { icon:'🧾', label:'核銷帳務登記', action:function(){ window.open('https://docs.google.com/spreadsheets/d/1_rWMMZDsfxztQhuZNZyMpey1RqhkS_ufs4InAbxUNus/edit','_blank'); } },
-    { icon:'💳', label:'每月匯款明細', action:function(){ window.open('https://docs.google.com/spreadsheets/d/1SMXjeTg0H4iFAXOovIdqFs-eSuziysDGhQpxVMHoLu4/edit','_blank'); } }
+    { icon:'🕐', label:'每日工時登記', perm:'workhour', action:function(){ showPage('workhour', null); } },
+    { icon:'📑', label:'勞報稅務建檔', perm:'labor',    action:function(){ showPage('labor', null); } },
+    { icon:'🧾', label:'核銷帳務登記', perm:'main',     action:function(){ window.open('https://docs.google.com/spreadsheets/d/1_rWMMZDsfxztQhuZNZyMpey1RqhkS_ufs4InAbxUNus/edit','_blank'); } },
+    { icon:'💳', label:'每月匯款明細', perm:'main',     action:function(){ window.open('https://docs.google.com/spreadsheets/d/1SMXjeTg0H4iFAXOovIdqFs-eSuziysDGhQpxVMHoLu4/edit','_blank'); } }
   ],
   '功能': [
-    { icon:'📁', label:'所有申請', action:function(){ showPage('main', null); } },
-    { icon:'📅', label:'本月查詢', action:function(){ showPage('monthly-all', null); } }
+    { icon:'📁', label:'所有申請', perm:'main',      action:function(){ showPage('main', null); } },
+    { icon:'📅', label:'本月查詢', perm:'monthly-all',action:function(){ showPage('monthly-all', null); } }
   ],
   '管理': [
-    { icon:'💰', label:'薪資單',   action:function(){ showToastGlobal('薪資單功能開發中…','info'); } },
-    { icon:'📈', label:'數據分析', action:function(){ showPage('analytics', null); } },
-    { icon:'💬', label:'意見回饋', action:function(){ showPage('feedback-mgr', null); } },
-    { icon:'🚨', label:'問題回報', action:function(){ showPage('report-mgr', null); } },
-    { icon:'🧑‍💼', label:'帳號管理', action:function(){ showPage('account', null); } }
+    { icon:'💰', label:'薪資單',   perm:'salary',    action:function(){ showToastGlobal('薪資單功能開發中…','info'); } },
+    { icon:'📈', label:'數據分析', perm:'analytics', action:function(){ showPage('analytics', null); } },
+    { icon:'💬', label:'意見回饋', perm:'account',   action:function(){ showPage('feedback-mgr', null); } },
+    { icon:'🚨', label:'問題回報', perm:'account',   action:function(){ showPage('report-mgr', null); } },
+    { icon:'🧑‍💼', label:'帳號管理', perm:'account',   action:function(){ showPage('account', null); } }
   ]
 };
 var _mobActiveSection = '';
+var _mobNavCollapsed = false;
+function toggleMobNav() {
+  _mobNavCollapsed = !_mobNavCollapsed;
+  var nav  = document.getElementById('mobile-bottom-nav');
+  var knob = document.getElementById('mob-nav-toggle-knob');
+  var icon = document.getElementById('mob-nav-knob-icon');
+  var items = nav ? nav.querySelectorAll('.mob-nav-item') : [];
+  if (_mobNavCollapsed) {
+    if (nav) { nav.style.height = '8px'; }
+    items.forEach(function(el){ el.style.opacity = '0'; el.style.pointerEvents = 'none'; });
+    if (icon) icon.textContent = '▲';
+    if (knob) { knob.style.bottom = '8px'; }
+  } else {
+    if (nav) { nav.style.height = '58px'; }
+    items.forEach(function(el){ el.style.opacity = ''; el.style.pointerEvents = ''; });
+    if (icon) icon.textContent = '▼';
+    if (knob) { knob.style.bottom = '58px'; }
+  }
+  mobNavClose();
+}
+
 function mobNavToggle(section) {
   if (_mobActiveSection === section) { mobNavClose(); return; }
   _mobActiveSection = section;
-  var items = MOB_MENUS[section] || [];
+  // 依角色過濾選單項目
+  var role = CURRENT_USER ? CURRENT_USER.role : 'guest';
+  var allowed = ROLE_SIDEBAR_MAP[role] || [];
+  var allItems = MOB_MENUS[section] || [];
+  // parttime/fulltime/employee 不顯示系統/功能/管理
+  var restrictedRoles = ['parttime','fulltime','employee'];
+  var restrictedSections = ['系統','功能','管理'];
+  if (restrictedRoles.indexOf(role) > -1 && restrictedSections.indexOf(section) > -1) {
+    mobNavClose();
+    return;
+  }
+  var items = allItems.filter(function(it){
+    var p = it.perm || '';
+    if (!p) return true;
+    return allowed.indexOf(p) > -1;
+  });
   var titleEl = document.getElementById('mob-submenu-title');
   var itemsEl = document.getElementById('mob-submenu-items');
   var sub = document.getElementById('mob-submenu');
@@ -6411,11 +6754,11 @@ function mobNavToggle(section) {
   if (!sub || !itemsEl) return;
   if (titleEl) titleEl.textContent = section;
   itemsEl.innerHTML = '';
-  items.forEach(function(it, idx) {
+  items.forEach(function(it) {
     var div = document.createElement('div');
     div.className = 'mob-sub-item';
     div.innerHTML = '<span style="font-size:18px;">'+it.icon+'</span><span style="font-size:14px;font-weight:500;color:#c8c4b4;">'+it.label+'</span>';
-    (function(i,s){ div.onclick = function(){ mobSubExec(i,s); }; })(idx, section);
+    (function(action){ div.onclick = function(){ action(); mobNavClose(); }; })(it.action);
     itemsEl.appendChild(div);
   });
   sub.style.display = 'block';
@@ -6425,6 +6768,7 @@ function mobNavToggle(section) {
   if (activeTab) activeTab.classList.add('active');
 }
 function mobSubExec(idx, section) {
+  // 保留向後相容，現在主要用直接 action binding
   var items = MOB_MENUS[section] || [];
   if (items[idx]) items[idx].action();
   mobNavClose();
@@ -6969,7 +7313,9 @@ function renderMonTable() {
   tbody.innerHTML = '';
   if(!filtered.length){
     tbody.innerHTML='<tr><td colspan="11" style="text-align:center;padding:28px;color:var(--color-text-muted);">無符合資料</td></tr>';
-    renderMonPagination(1, 0); return;
+    renderMonPagination(1, 0);
+    _renderAppMobileList('mon-mobile-list', [], 'mon');
+    return;
   }
 
   var start = (monCurrentPage - 1) * PER_PAGE;
@@ -7007,6 +7353,7 @@ function renderMonTable() {
     tbody.appendChild(tr);
   });
   renderMonPagination(totalPage, total);
+  _renderAppMobileList('mon-mobile-list', paged, 'mon');
 }
 
 function renderMonPagination(totalPage, total) {
@@ -7243,7 +7590,9 @@ function renderMallTable() {
   tbody.innerHTML='';
   if(!filtered.length){
     tbody.innerHTML='<tr><td colspan="11" style="text-align:center;padding:28px;color:var(--color-text-muted);">無符合資料</td></tr>';
-    renderMallPagination(1, 0); return;
+    renderMallPagination(1, 0);
+    _renderAppMobileList('mall-mobile-list', [], 'mall');
+    return;
   }
 
   var start = (mallCurrentPage - 1) * PER_PAGE;
@@ -7296,6 +7645,7 @@ function renderMallTable() {
     tbody.appendChild(tr);
   });
   renderMallPagination(totalPage, total);
+  _renderAppMobileList('mall-mobile-list', paged, 'mall');
 }
 
 function renderMallPagination(totalPage, total) {
@@ -7418,7 +7768,7 @@ initAuth(); // 進入文件中心時立即從 GAS 載入
       <div class="modal-overlay" id="fbrpDetailModal" onclick="if(event.target===this)closeModal('fbrpDetailModal')">
         <div style="background:#fff;border-radius:14px;padding:28px 32px;width:100%;max-width:500px;box-shadow:0 16px 48px rgba(0,0,0,.2);display:flex;flex-direction:column;gap:14px;">
           <div style="display:flex;align-items:center;justify-content:space-between;">
-            <div style="font-size:16px;font-weight:700;color:var(--color-text-primary);" id="fbrp-detail-title">詳細內容</div>
+            <div style="font-size:16px;font-weight:700;color:var(--color-text-primary);text-align:center;flex:1;" id="fbrp-detail-title">詳細內容</div>
             <button onclick="closeModal('fbrpDetailModal')" style="background:none;border:none;font-size:18px;cursor:pointer;color:var(--color-text-muted);">✕</button>
           </div>
           <div style="background:#faf8f3;border:1px solid #e4dfd0;border-radius:8px;padding:12px 16px;font-size:12.5px;line-height:1.8;font-family:var(--font-mono);" id="fbrp-detail-info"></div>
