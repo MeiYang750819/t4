@@ -453,7 +453,7 @@ html, body {
 
 /* 文件中心 / 數據分析 等全高頁面（無 padding 貼滿）*/
 #page-doccenter.active, #page-analytics.active, .page-section { display:none;flex-direction:column;gap:var(--space-4);overflow-x:hidden; }
-.page-section.active { display:flex; flex-direction:column; }
+.page-section.active { display:flex; flex-direction:column; flex:1; min-height:0; }
 #page-doccenter.active { display:flex;flex:1;min-height:0;flex-direction:column; }
 #page-workhour.active, #page-labor.active, #page-analytics.active, #page-monthly-all.active, #page-extraops.active { display:flex;flex:1;min-height:0;flex-direction:column;overflow:hidden; }
 
