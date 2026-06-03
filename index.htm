@@ -1012,7 +1012,7 @@ html, body {
   .app-sidebar { display: none !important; }
 
   /* ── Body 改為直列 ── */
-  .app-body { display: flex; flex-direction: column; }
+  .app-body { flex-direction: column; }
 
   /* ── Main 留出底部 nav 空間 ── */
   .app-main {
@@ -1093,7 +1093,7 @@ html, body {
     white-space: nowrap;
     flex-shrink: 0;
     min-width: max-content;
-    margin-right: 13px;
+    margin-right: 11px;
     background: var(--color-gold) !important;
     color: #1c1c15 !important;
     border: none !important;
@@ -1494,6 +1494,7 @@ html, body {
     padding: 10px 16px;
     scrollbar-width: none;
     grid-template-columns: unset !important;
+    flex-shrink: 0;
   }
   #page-analytics .ana-charts-row::-webkit-scrollbar { display: none; }
   /* 每個圖表卡片佔全寬（手機一次看一個）*/
@@ -1502,7 +1503,6 @@ html, body {
     scroll-snap-align: center;
     min-width: 0;
     max-width: calc(100vw - 56px);
-    height: auto;
   }
 
   /* ── 數據分析頁：允許滑動 ── */
@@ -3242,9 +3242,6 @@ function showPage(pageId, el) {
   document.querySelectorAll('.page-section').forEach(function(s) { s.classList.remove('active'); });
   var t = document.getElementById('page-' + pageId);
   if (t) t.classList.add('active');
-  // 切換頁面時捲回頂端
-  var appMain = document.querySelector('.app-main');
-  if (appMain) appMain.scrollTop = 0;
   document.querySelectorAll('.sidebar-nav-item:not(.external)').forEach(function(i) { i.classList.remove('active'); });
   if (el) {
     el.classList.add('active');
@@ -6718,10 +6715,10 @@ function toggleMobNav() {
   var icon = document.getElementById('mob-nav-knob-icon');
   var items = nav ? nav.querySelectorAll('.mob-nav-item') : [];
   if (_mobNavCollapsed) {
-    if (nav) { nav.style.height = '6px'; }
+    if (nav) { nav.style.height = '8px'; }
     items.forEach(function(el){ el.style.opacity = '0'; el.style.pointerEvents = 'none'; });
     if (icon) icon.textContent = '▲';
-    if (knob) { knob.style.bottom = '6px'; knob.style.display = 'flex'; }
+    if (knob) { knob.style.bottom = '8px'; }
   } else {
     if (nav) { nav.style.height = '58px'; }
     items.forEach(function(el){ el.style.opacity = ''; el.style.pointerEvents = ''; });
