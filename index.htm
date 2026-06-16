@@ -925,528 +925,6 @@ html,body{height:100%;font-family:var(--font-body);font-size:var(--font-size-bas
   opacity:0; transition:opacity .15s;
 }
 .leave-filter-card:hover .leave-tip { opacity:1; }
-
-/* ============================================================
-   ⑰ RWD — 響應式設計（手機版）Phase 1
-   ─────────────────────────────────────────────────────────────
-   斷點說明：
-   • ≤ 768px  平板 / 大螢幕手機（iPad mini 直向 / iPhone Plus）
-   • ≤ 480px  一般手機（iPhone 14 / Android 標準）
-   • ≤ 360px  小螢幕手機（舊款 Android）
-   ─────────────────────────────────────────────────────────────
-   Phase 1 範圍：Layout 骨架（Header / Sidebar / Main）
-   Phase 2 預計：表格 → 卡片、Modal 全螢幕、圖表縮放
-   ============================================================ */
-
-/* ── 平板 / 大螢幕手機 ── */
-@media (max-width: 768px) {
-
-  /* ── Header：sticky 置頂 ── */
-  .app-header {
-    position: sticky;
-    top: 0;
-    z-index: 9000;
-    padding: 0 var(--space-2);
-    height: 52px;
-  }
-
-  /* ── Copyright：手機版只顯示短版 ── */
-  .header-subtitle { display: block !important; font-size: 10px; }
-  #header-copyright { font-size: 0 !important; } /* 隱藏完整版本號 */
-  #header-copyright::before {
-    content: '© Copyright 2026 MYs System';
-    font-size: 10px;
-    font-weight: 300;
-    color: var(--color-text-on-dark-sub);
-    letter-spacing: .04em;
-  }
-  .header-title  { font-size: 14px; }
-
-  /* ── Header 右側按鈕：去掉符號，只顯示文字，框框加大 ── */
-  .btn-icon { display: none; }           /* 隱藏符號 ！❌ */
-  .btn-text { display: inline; }
-  .btn, .btn-feedback, .btn-danger {
-    width: auto;
-    min-width: 56px;
-    padding: 0 10px;
-    font-size: 11px;
-    height: 30px;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
-  /* ── 右上角 user-chip ── */
-  .user-chip { padding: 4px 10px 4px 6px !important; gap: 5px; }
-  #userName { font-size: 0 !important; }
-  #userName::before {
-    content: attr(data-short);
-    font-size: 12px;
-    font-weight: 600;
-    color: #f0ece2;
-  }
-
-  /* ── Sidebar 隱藏（改用底部 nav）── */
-  .app-sidebar { display: none !important; }
-
-  /* ── Body 改為直列 ── */
-  /* (app-body 完整規則見下方 sticky header 區塊) */
-
-  /* ── Main 留出底部 nav 空間 ── */
-  .app-main {
-    padding: var(--space-3);
-    gap: var(--space-3);
-    padding-bottom: 70px;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  /* ── 統計卡片 3 欄 ── */
-  .stats-grid { grid-template-columns: repeat(3, 1fr); gap: var(--space-2); }
-  .stat-card-value { font-size: 20px; }
-  .stat-card-label { font-size: 10px; }
-
-  /* ── Tab 列 ── */
-  .tab-item { font-size: 12px; height: 38px; }
-
-  /* ── 表格：允許橫向捲動（電腦版資料不變）── */
-  .table-section { overflow-x: auto; }
-  .data-table { min-width: 600px; }
-
-  /* ── 申請頁面：手機版顯示卡片，隱藏表格 ── */
-  #page-main      .table-section,
-  #page-myrecords .table-section,
-  #page-monthly   .table-section,
-  #page-monthly-all .table-section { display: none !important; }
-
-  #main-mobile-list,
-  #my-mobile-list,
-  #mon-mobile-list,
-  #mall-mobile-list { display: block !important; min-height: 0; }
-
-  /* 手機版分頁按鈕：只在有內容時佔空間 */
-  #main-mob-pagination,
-  #my-mob-pagination,
-  #mon-mob-pagination,
-  #mall-mob-pagination {
-    display: flex !important;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 4px;
-    padding: 8px 0 4px;
-  }
-
-  /* 本月查詢頁：確保可滑動（覆蓋 overflow:hidden）*/
-  #page-monthly-all,
-  #page-monthly-all.active {
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch;
-    height: auto !important;
-    min-height: 0;
-  }
-
-  /* ── 帳號管理 toolbar：搜尋佔多 + 兩個 filter 同排 ── */
-  #acc-desktop-table .toolbar {
-    flex-wrap: wrap;
-    gap: 8px;
-    padding: var(--space-2) var(--space-3);
-  }
-  #acc-desktop-table .toolbar .search-box {
-    flex: 2 1 160px;
-    min-width: 0;
-  }
-  #acc-desktop-table .toolbar .filter-select {
-    flex: 1 1 100px;
-    min-width: 0;
-    font-size: 11px;
-  }
-  /* 新增帳號按鈕顯示 */
-  #acc-add-btn {
-    display: inline-flex !important;
-    align-items: center;
-    gap: 4px;
-    font-size: 12px !important;
-    padding: 0 14px !important;
-    height: 32px !important;
-    white-space: nowrap;
-    flex-shrink: 0;
-    min-width: max-content;
-    margin-right: 13px;
-    background: var(--color-gold) !important;
-    color: #1c1c15 !important;
-    border: none !important;
-    border-radius: var(--radius-md) !important;
-    font-weight: 600;
-  }
-  /* 帳號管理標題列：不換行，讓按鈕和標題共存 */
-  #page-account > div:first-child > div:first-child {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-  }
-
-  /* ── 帳號管理：桌面表格隱藏，卡片顯示 ── */
-  #acc-desktop-table { display: none !important; }
-  #acc-mobile-list   { display: block !important; }
-
-  /* ── 意見/問題：表格隱藏，卡片顯示 ── */
-  #page-feedback-mgr .table-section { display: none !important; }
-  #page-report-mgr   .table-section { display: none !important; }
-  #fb-mobile-list { display: block !important; }
-  #rp-mobile-list { display: block !important; }
-
-  /* ── Modal ── */
-  .modal-overlay { align-items: center; }  /* 手機版：垂直置中 */
-  .form-modal-box,
-  .feedback-modal-box,
-  .reject-modal-box {
-    max-width: 96vw;
-    width: 100%;
-    border-radius: 14px;
-    max-height: 88vh;
-    padding: var(--space-4) var(--space-3);
-  }
-
-  /* ── 文件中心 sidebar ── */
-  .doccenter-sidebar { width: 120px; }
-  .doccenter-sidebar-item { font-size: 12px; padding: 8px var(--space-2); }
-
-  /* 意見欄 Modal：類型下拉選單限制寬度 */
-  .feedback-type-select { width: 90px !important; max-width: 90px !important; font-size: 11px !important; }
-  .feedback-row-1 { flex-wrap: wrap; gap: 6px; }
-  html, body { overflow-x: hidden; }
-  .app-wrapper { overflow-x: hidden; }
-  .app-header {
-    position: sticky;
-    top: 0;
-    z-index: 200;
-  }
-  .app-wrapper {
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
-  .app-body {
-    display: flex;
-    flex: 1;
-    overflow: hidden;
-    flex-direction: column;
-  }
-  .app-main {
-    flex: 1;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 70px;
-  }
-  #mobile-bottom-nav { display: flex !important; }
-  #mob-nav-toggle-knob { display: flex !important; }
-}
-
-
-/* ── 一般手機 ── */
-@media (max-width: 480px) {
-
-  /* Header */
-  .header-logo  { width: 32px; height: 32px; font-size: 9px; }
-  .header-title { font-size: 13px; }
-  .app-header   { height: 48px; padding: 0 var(--space-2); }
-
-  /* Header 按鈕：更小 */
-  .btn, .btn-feedback, .btn-danger { width: 34px; height: 30px; }
-
-  /* Sidebar：更緊湊 */
-  .sidebar-nav-item { height: 36px; padding: 0 var(--space-2); font-size: 11px; }
-  .sidebar-icon     { font-size: 12px; width: 14px; }
-  .sidebar-badge    { min-width: 14px; height: 14px; font-size: 9px; }
-
-  /* Main：最小 padding */
-  .app-main { padding: var(--space-2); gap: var(--space-2); }
-
-  /* 統計卡片：2欄（總計＋狀態一行）*/
-  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-2); }
-  .stat-card  { padding: 8px 6px; }
-  .stat-card-value { font-size: 20px; }
-  .stat-card-label { font-size: 10px; }
-
-  /* Tab 列：更小、可捲動 */
-  .tab-bar  { overflow-x: auto; flex-wrap: nowrap; }
-  .tab-item { flex-shrink: 0; font-size: 11px; height: 36px; min-width: 64px; }
-
-  /* 表格更小字 */
-  .data-table td, .data-table thead th { font-size: 11px; padding: 6px 6px; }
-
-  /* Modal：接近全螢幕 */
-  .modal-overlay { align-items: center; }  /* 480px 以下也垂直置中 */
-  .form-modal-box,
-  .feedback-modal-box,
-  .reject-modal-box {
-    max-width: 100vw;
-    width: 100%;
-    border-radius: 16px 16px 0 0;            /* 底部圓角 = 0（貼底）*/
-    padding: var(--space-4) var(--space-3);
-    max-height: 88vh;
-  }
-
-  /* 文件中心：側欄改為全寬（收合為選單）*/
-  .doccenter-wrap { flex-direction: column; }
-  .doccenter-sidebar {
-    width: 100%;
-    height: auto;
-    flex-direction: row;
-    overflow-x: auto;
-    border-right: none;
-    border-bottom: 1px solid #555;
-  }
-  .doccenter-sidebar-item { flex-shrink: 0; font-size: 11px; }
-  .doccenter-sidebar-label { display: none; }
-  .doccenter-sidebar-spacer { display: none; }
-
-  /* 內頁文章：padding 縮小 */
-  .article-wrap { padding: var(--space-3) var(--space-3); }
-  .inner-page-title { font-size: 16px; }
-  .article-section-title { font-size: 13px; }
-  .article-body { font-size: 13px; }
-}
-
-
-/* ── 小螢幕手機 ── */
-@media (max-width: 360px) {
-  .stats-grid   { grid-template-columns: repeat(2, 1fr); }
-  .stat-card-value { font-size: 18px; }
-  .tab-item     { font-size: 10px; min-width: 56px; }
-  .app-main     { padding: var(--space-1) var(--space-2); }
-}
-
-
-/* ── 防止手機橫向捲動 ── */
-
-/* ── 手機版 mob-info-card（意見回饋 / 問題回報）── */
-.mob-info-card {
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border-card);
-  border-radius: var(--radius-md);
-  padding: 14px 16px;
-  margin-bottom: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  box-shadow: var(--shadow-card);
-}
-.mic-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 8px;
-}
-.mic-type  { font-size: 15px; font-weight: 700; color: var(--color-text-primary); margin-bottom: 2px; }
-.mic-name  { font-size: 12px; font-weight: 500; color: var(--color-text-muted); }
-.mic-status {
-  font-size: 10px; font-weight: 700;
-  padding: 3px 10px; border-radius: 10px;
-  white-space: nowrap; flex-shrink: 0;
-}
-.mic-preview {
-  font-size: 12px;
-  color: var(--color-text-muted);
-  font-family: var(--font-mono);
-  line-height: 1.4;
-}
-.mic-preview.mic-time {
-  font-size: 12px;
-  color: var(--color-text-muted);
-  font-family: var(--font-mono);
-}
-.mic-detail {
-  display: none;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 6px;
-  padding-top: 10px;
-  border-top: 1px solid var(--color-border-table);
-}
-.mic-detail.open { display: flex; }
-.mic-meta  { font-size: 11px; color: var(--color-text-muted); font-family: var(--font-mono); }
-.mic-full-content {
-  font-size: 13px;
-  color: var(--color-text-primary);
-  line-height: 1.7;
-  white-space: pre-wrap;
-}
-.mic-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-.mic-btn {
-  font-size: 12px; padding: 8px 18px;
-  border-radius: 8px; cursor: pointer;
-  border: 1.5px solid #90caf9;
-  background: #deeeff; color: #5b9bd5;
-  font-weight: 600; transition: .15s;
-  -webkit-tap-highlight-color: transparent;
-  user-select: none;
-  display: inline-block;
-}
-.mic-toggle {
-  text-align: right;
-  font-size: 11px;
-  color: var(--color-text-muted);
-  cursor: pointer;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-}
-.mic-toggle:hover { color: var(--color-gold); }
-
-/* ── 手機版帳號卡片（已在 acc-mobile-card 中定義）── */
-.acc-mobile-card {
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border-card);
-  border-radius: var(--radius-md);
-  padding: 14px 16px;
-  margin-bottom: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  box-shadow: var(--shadow-card);
-}
-.acc-mobile-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-.acc-mobile-card-name { font-size: 15px; font-weight: 600; color: var(--color-text-primary); }
-.acc-mobile-card-mail { font-size: 11px; color: var(--color-text-muted); font-family: var(--font-mono); }
-.acc-mobile-card-row  { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 12px; color: var(--color-text-secondary); }
-.acc-mobile-card-detail {
-  display: none;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 6px;
-  padding-top: 10px;
-  border-top: 1px solid var(--color-border-table);
-}
-.acc-mobile-card-detail.open { display: flex; }
-.acc-mobile-card-actions { display: flex; gap: 6px; flex-wrap: wrap; }
-.acc-mobile-card-actions button {
-  font-size: 11px; padding: 5px 10px; border-radius: 6px;
-  cursor: pointer; border: 1px solid var(--color-border-card);
-  background: #fdfcf9; transition: background .15s;
-}
-.acc-mobile-toggle {
-  text-align: right;
-  font-size: 11px;
-  color: var(--color-text-muted);
-  cursor: pointer;
-  user-select: none;
-}
-/* 桌面版隱藏手機卡片 */
-#acc-mobile-list { display: none; }
-#fb-mobile-list  { display: none; }
-#rp-mobile-list  { display: none; }
-#main-mobile-list,
-#my-mobile-list,
-#mon-mobile-list,
-#mall-mobile-list { display: none; }
-#main-mob-pagination,
-#my-mob-pagination,
-#mon-mob-pagination,
-#mall-mob-pagination { display: none; }
-
-/* ── 申請卡片（手機版）── */
-.mob-app-card {
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border-card);
-  border-radius: var(--radius-md);
-  padding: 14px 16px;
-  margin-bottom: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  box-shadow: var(--shadow-card);
-}
-#rp-mobile-list  { display: none; }
-
-
-
-/* ============================================================
-   手機版：數據分析橫向滑動 + Tab篩選顯示
-   ============================================================ */
-
-@media (max-width: 768px) {
-
-  /* ── 數據分析統計卡片：每次顯示4個，橫向 scroll ── */
-  #page-analytics .ana-stats-row {
-    display: flex !important;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x mandatory;
-    gap: 6px;
-    padding: 10px 16px 6px; /* 左右對齊圖表列 */
-    scrollbar-width: none;
-    grid-template-columns: unset !important;
-  }
-  #page-analytics .ana-stats-row::-webkit-scrollbar { display: none; }
-  #page-analytics .ana-stats-row > div {
-    flex: 0 0 calc(25% - 5px); /* 4個一排 */
-    scroll-snap-align: start;
-    min-width: 72px;
-  }
-
-  /* ── 數據分析圖表：每次顯示1個，置中，橫向 scroll ── */
-  #page-analytics .ana-charts-row {
-    display: flex !important;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x mandatory;
-    gap: 12px;
-    padding: 10px 16px;
-    scrollbar-width: none;
-    grid-template-columns: unset !important;
-  }
-  #page-analytics .ana-charts-row::-webkit-scrollbar { display: none; }
-  /* 每個圖表卡片佔全寬（手機一次看一個）*/
-  #page-analytics .ana-chart-slide {
-    flex: 0 0 calc(100vw - 56px) !important;
-    scroll-snap-align: center;
-    min-width: 0;
-    max-width: calc(100vw - 56px);
-    height: auto;
-  }
-
-  /* ── 數據分析頁：允許滑動 ── */
-  #page-analytics,
-  #page-analytics.active {
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  /* ── 申請 Tab 篩選列：手機版完整顯示 ── */
-  #page-main      .tab-bar,
-  #page-myrecords .tab-bar,
-  #page-monthly   .tab-bar,
-  #page-monthly-all .tab-bar {
-    display: flex !important;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    border-radius: var(--radius-lg) !important;
-    border: 1.5px solid var(--color-border-card) !important;
-    border-bottom: 1.5px solid var(--color-border-card) !important;
-    margin-bottom: 10px;
-    margin-top: 4px;
-    box-shadow: var(--shadow-card);
-    flex-shrink: 0;
-  }
-  #page-main      .tab-bar .tab-item,
-  #page-myrecords .tab-bar .tab-item,
-  #page-monthly   .tab-bar .tab-item,
-  #page-monthly-all .tab-bar .tab-item {
-    flex: 1;
-    min-width: 72px;
-    font-size: 12px;
-    height: 42px;
-    font-weight: 600;
-    border-bottom: none !important;
-  }
-}
-
 </style>
 
   <meta property="og:title" content="📝｜MYs系統｜人資行政管理系統" />
@@ -1458,6 +936,54 @@ html,body{height:100%;font-family:var(--font-body);font-size:var(--font-size-bas
 
   <!-- ══ Header ══ -->
     
+<!-- ════ 登入畫面 ════ -->
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-box" style="position:relative;">
+    <!-- X 按鈕（訪客關閉，回到遮罩狀態）-->
+    <button id="loginCloseBtn" onclick="closeLoginOverlay()" style="display:none;position:absolute;top:10px;right:12px;width:28px;height:28px;border:none;background:transparent;cursor:pointer;font-size:16px;color:#9a9482;line-height:1;border-radius:50%;transition:.15s;" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='transparent'">✕</button>
+    <div class="login-logo-row">
+      <img class="login-logo" src="https://mys0819.github.io/AMS/assets/00.個人專業圖像.png" alt="MYs" onerror="this.src='https://mys0819.github.io/AMS/assets/MYs_logo_去背.png'" style="width:52px;height:52px;object-fit:cover;border-radius:50%;"/>
+      <span class="login-title">人資行政管理系統</span>
+    </div>
+    <div class="login-subtitle">請登入以使用完整功能</div>
+
+    <!-- 信箱：單一輸入框 + datalist 建議 -->
+    <div class="login-field">
+      <label class="login-label">電子信箱</label>
+      <div style="position:relative;">
+        <input class="login-input" id="login-mail" type="text"
+          inputmode="email"
+          placeholder="example@gmail.com"
+          autocomplete="username"
+          oninput="updateMailSuggestions()"
+          onblur="setTimeout(function(){var d=document.getElementById('login-mail-dropdown');if(d)d.style.display='none';},200)"
+          onkeydown="if(event.key==='Enter')document.getElementById('login-pass').focus()"
+          style="padding-right:12px;font-size:16px;"/>
+        <div id="login-mail-dropdown" style="display:none;position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:1.5px solid var(--color-gold);border-radius:8px;z-index:100;box-shadow:0 4px 12px rgba(0,0,0,.12);overflow:hidden;"></div>
+      </div>
+    </div>
+
+    <!-- 密碼 + 顯示按鈕 -->
+    <div class="login-field">
+      <label class="login-label">密碼</label>
+      <div style="position:relative;">
+        <input class="login-input" id="login-pass" type="password"
+          placeholder="請輸入密碼"
+          autocomplete="current-password"
+          onkeydown="if(event.key==='Enter')doLogin()"
+          style="padding-right:44px;"/>
+        <button onclick="togglePassView()" type="button"
+          style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:#9a9680;padding:4px;" id="pass-eye" title="顯示/隱藏密碼">👁</button>
+      </div>
+    </div>
+
+    <div class="login-err" id="login-err"></div>
+
+    <button class="login-btn" id="login-btn" onclick="doLogin()">登 入</button>
+    <div style="text-align:center;margin-top:-8px;"><a href="#" onclick="testGasConnection();return false;" style="font-size:11px;color:var(--color-text-muted);text-decoration:underline;">⚙ 測試 GAS 連線</a></div>
+
+  </div>
+</div>
 
 <!-- 使用者選單 -->
 <div class="user-menu" id="userMenu" style="display:none;">
@@ -1476,8 +1002,9 @@ html,body{height:100%;font-family:var(--font-body);font-size:var(--font-size-bas
       </div>
     </div>
     <div class="header-right">
-      <button class="btn-feedback" onclick="openFeedback()">！ 意見欄</button>
+      <button class="btn-feedback" onclick="openFeedback()">！意見欄</button>
       <button class="btn-danger" onclick="openBugReport()">❌ 回報問題</button>
+      <button onclick="openLoginModal()" id="loginNavBtn" style="height:32px;padding:0 14px;border-radius:20px;border:1.5px solid var(--color-gold);background:var(--color-gold-bg);color:var(--color-gold);font-family:var(--font-body);font-size:12px;font-weight:600;cursor:pointer;transition:.15s;" onmouseover="this.style.background='var(--color-gold)';this.style.color='#1c1c15'" onmouseout="this.style.background='var(--color-gold-bg)';this.style.color='var(--color-gold)'">🔑 登入</button>
       <div class="user-chip" id="userChip" onclick="toggleUserMenu()" style="display:none;"><div class="user-chip-avatar" id="userInitial">?</div><span class="user-chip-name" id="userName">訪客</span></div>
       
     </div>
@@ -2458,7 +1985,6 @@ html,body{height:100%;font-family:var(--font-body);font-size:var(--font-size-bas
         <div id="mall-mob-pagination" style="display:none;"></div>
       </div><!-- end page-monthly-all -->
 
-      <!-- ════ 意見回饋管理 ════ -->
       <div class="page-section" id="page-feedback-mgr" style="gap:var(--space-4);">
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
           <div class="stat-card bg-total"><span class="stat-card-label">總計</span><div class="stat-card-value-row"><span class="stat-card-value" id="fb-total">0</span><span class="stat-card-unit">筆</span></div></div>
@@ -2736,41 +2262,6 @@ html,body{height:100%;font-family:var(--font-body);font-size:var(--font-size-bas
 </main>
   </div><!-- end app-body -->
 
-  <!-- ══ 手機底部導覽列（position:fixed，不影響 flex layout）══ -->
-  <nav id="mobile-bottom-nav" style="display:none;">
-    <a class="mob-nav-item" id="mnav-文件" onclick="mobNavToggle('文件')">
-      <span class="mob-nav-icon">📁</span><span class="mob-nav-label">文件</span>
-    </a>
-    <a class="mob-nav-item" id="mnav-申請" onclick="mobNavToggle('申請')">
-      <span class="mob-nav-icon">📝</span><span class="mob-nav-label">申請</span>
-    </a>
-    <a class="mob-nav-item" id="mnav-系統" onclick="mobNavToggle('系統')">
-      <span class="mob-nav-icon">⚙️</span><span class="mob-nav-label">系統</span>
-    </a>
-    <a class="mob-nav-item" id="mnav-功能" onclick="mobNavToggle('功能')">
-      <span class="mob-nav-icon">🗂</span><span class="mob-nav-label">功能</span>
-    </a>
-    <a class="mob-nav-item" id="mnav-管理" onclick="mobNavToggle('管理')">
-      <span class="mob-nav-icon">🔧</span><span class="mob-nav-label">管理</span>
-    </a>
-  </nav>
-
-  <!-- 底部導覽列折疊凸點 -->
-  <div id="mob-nav-toggle-knob"
-       onclick="toggleMobNav()"
-       style="display:none;position:fixed;bottom:58px;left:50%;transform:translateX(-50%);
-              width:48px;height:16px;background:#2a2a1e;border:1px solid #3a3a2a;
-              border-radius:8px 8px 0 0;align-items:center;justify-content:center;
-              cursor:pointer;z-index:599;-webkit-tap-highlight-color:transparent;">
-    <span id="mob-nav-knob-icon" style="font-size:10px;color:#9a9680;line-height:1;">▼</span>
-  </div>
-
-  <!-- 手機選單：展開式子選單 -->
-  <div id="mob-submenu-overlay" onclick="mobNavClose()" style="display:none;position:fixed;inset:0;z-index:590;background:rgba(0,0,0,.45);"></div>
-  <div id="mob-submenu" style="display:none;position:fixed;bottom:58px;left:0;right:0;z-index:595;background:#1f1f17;border-top:1px solid #3a3a2a;border-radius:16px 16px 0 0;padding:12px 8px 6px;max-height:55vh;overflow-y:auto;">
-    <div id="mob-submenu-title" style="font-size:11px;font-weight:700;color:#9a9680;letter-spacing:.08em;padding:0 8px 8px;text-transform:uppercase;"></div>
-    <div id="mob-submenu-items" style="display:flex;flex-direction:column;gap:2px;"></div>
-  </div>
 
 </div><!-- end app-wrapper -->
 <!-- 帳號 Modal -->
