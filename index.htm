@@ -925,6 +925,274 @@ html,body{height:100%;font-family:var(--font-body);font-size:var(--font-size-bas
   opacity:0; transition:opacity .15s;
 }
 .leave-filter-card:hover .leave-tip { opacity:1; }
+
+/* ============================================================
+   手機版卡片共用樣式
+   ── 申請類（mob-app-card）、資訊類（mob-info-card / mic-*）、帳號類（acc-mobile-card）
+   全部沿用 --color-* / --space-* / --radius-* / --font-* 設計 token
+   ============================================================ */
+.mob-app-card{
+  background:var(--color-bg-card);border:1px solid var(--color-border-card);
+  border-radius:var(--radius-lg);padding:14px 16px;
+  display:flex;flex-direction:column;gap:8px;box-shadow:var(--shadow-card);
+}
+.mob-app-card+.mob-app-card{margin-top:10px;}
+.mob-app-card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+.mob-info-card{
+  background:var(--color-bg-card);border:1px solid var(--color-border-card);
+  border-radius:var(--radius-lg);padding:14px 16px;
+  display:flex;flex-direction:column;gap:6px;box-shadow:var(--shadow-card);
+}
+.mob-info-card+.mob-info-card{margin-top:10px;}
+.mic-header{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+.mic-type{font-size:11px;font-weight:600;color:var(--color-text-muted);margin-bottom:2px;}
+.mic-name{font-size:15px;font-weight:600;color:var(--color-text-primary);}
+.mic-status{font-size:10px;font-weight:700;padding:3px 10px;border-radius:8px;white-space:nowrap;flex-shrink:0;}
+.mic-preview{font-size:12px;color:var(--color-text-secondary);}
+.mic-time{color:var(--color-text-muted);font-family:var(--font-mono);font-size:11px;}
+.mic-detail{display:none;padding-top:8px;border-top:1px solid var(--color-border-card);margin-top:2px;gap:8px;flex-direction:column;}
+.mic-detail.open{display:flex;}
+.mic-full-content{font-size:13px;color:var(--color-text-primary);line-height:1.6;white-space:pre-wrap;}
+.mic-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.mic-btn{font-size:11px;height:30px;padding:0 14px;border-radius:6px;border:1.5px solid #90caf9;background:#deeeff;color:#5b9bd5;font-weight:600;cursor:pointer;}
+.mic-toggle{text-align:right;font-size:11px;color:var(--color-text-muted);cursor:pointer;padding-top:4px;user-select:none;}
+.acc-mobile-card{
+  background:var(--color-bg-card);border:1px solid var(--color-border-card);
+  border-radius:var(--radius-lg);padding:14px 16px;
+  display:flex;flex-direction:column;gap:8px;box-shadow:var(--shadow-card);
+}
+.acc-mobile-card+.acc-mobile-card{margin-top:10px;}
+.acc-mobile-card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+.acc-mobile-card-name{font-size:15px;font-weight:600;color:var(--color-text-primary);}
+.acc-mobile-card-mail{font-size:11px;color:var(--color-text-muted);margin-top:2px;}
+.acc-mobile-card-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.acc-mobile-card-detail{display:none;padding-top:8px;border-top:1px solid var(--color-border-card);margin-top:2px;flex-direction:column;gap:10px;}
+.acc-mobile-card-detail.open{display:flex;}
+.acc-mobile-card-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.acc-mobile-card-actions button{font-size:11px;height:30px;padding:0 12px;border-radius:6px;border:1.5px solid var(--color-border-table);cursor:pointer;font-weight:600;}
+
+/* mob-app-card 展開詳細區（與 mic-detail 同邏輯）*/
+.mob-app-card-detail{display:none;padding-top:8px;border-top:1px solid var(--color-border-card);margin-top:2px;flex-direction:column;gap:8px;}
+.mob-app-card-detail.open{display:flex;}
+
+/* 手機版迷你分類面板（預設隱藏）*/
+#mob-submenu-panel{
+  display:none;position:fixed;left:0;right:0;bottom:60px;
+  background:var(--color-bg-sidebar);
+  border-top:1px solid var(--color-border-sidebar);
+  border-radius:16px 16px 0 0;
+  box-shadow:0 -4px 20px rgba(0,0,0,.25);
+  z-index:1940;max-height:55vh;overflow-y:auto;padding:8px 0;
+}
+#mob-submenu-panel.show{display:block;}
+
+/* ============================================================
+   手機版底部分類導覽列／抽屜（沿用桌面版既有色彩變數與 class，
+   預設隱藏，僅在 ≤768px 時於下方 @media 中顯示）
+   ============================================================ */
+.mobile-tabbar{display:none;}
+.mobile-sidebar-backdrop{display:none;}
+
+/* ============================================================
+   RWD 手機版（≤768px）
+   原則：不新增獨立的視覺系統，全部沿用桌面版既有 class 與
+   --color-*／--space-* 等設計 token，只調整版面排列方式與位置
+   ============================================================ */
+@media (max-width: 768px) {
+
+  /* ── Header：留白縮小、允許換行、隱藏次要文字 ── */
+  .app-header{ height:auto; min-height:var(--header-height); padding:8px 12px; flex-wrap:wrap; row-gap:8px; }
+  .header-subtitle{ display:none; }
+  .header-title{ font-size:15px; }
+  .header-logo{ width:30px; height:30px; }
+  .header-right{ gap:6px; flex-wrap:wrap; }
+  .btn,.btn-feedback,.btn-danger{ width:auto; padding:0 10px; font-size:11px; }
+  .user-chip-name{ display:none; }
+
+  /* ── 主內容：留白縮小，底部預留空間給手機分類導覽列 ── */
+  .app-main{ padding:14px 12px 76px 12px; }
+
+  /* ── 側邊欄：桌機版「左側固定欄」→ 手機版改為「底部可滑出抽屜」
+     （沿用 .app-sidebar / .sidebar-section / .sidebar-nav-item 原本的樣式，
+       只是用 position + transform 改變它出現的位置） ── */
+  .app-body{ position:relative; }
+  .app-sidebar{
+    position:fixed; left:0; right:0; bottom:0; top:auto;
+    width:100%; max-height:75vh;
+    border-right:none; border-top:1px solid var(--color-border-sidebar);
+    border-radius:16px 16px 0 0;
+    box-shadow:0 -8px 24px rgba(0,0,0,.25);
+    transform:translateY(100%);
+    transition:transform .28s ease;
+    z-index:2000;
+  }
+  .app-sidebar.mobile-open{ transform:translateY(0); }
+
+  .mobile-sidebar-backdrop{
+    display:block; position:fixed; inset:0; background:rgba(0,0,0,.45);
+    z-index:1900; opacity:0; pointer-events:none; transition:opacity .2s;
+  }
+  .mobile-sidebar-backdrop.show{ opacity:1; pointer-events:auto; }
+
+  /* ── 底部分類導覽列：沿用側邊欄同一套色票，只是換個位置呈現分類 ── */
+  .mobile-tabbar{
+    display:flex; position:fixed; left:0; right:0; bottom:0;
+    height:60px; background-color:var(--color-bg-sidebar);
+    border-top:1px solid var(--color-border-sidebar);
+    z-index:1950; overflow-x:auto;
+  }
+  .mobile-tab-item{
+    flex:1 0 auto; min-width:62px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:2px; font-family:var(--font-body); font-size:10px;
+    color:var(--sidebar-item-color); cursor:pointer; border-top:2px solid transparent;
+    padding:4px 6px; user-select:none;
+  }
+  .mobile-tab-item .mobile-tab-icon{ font-size:18px; }
+  .mobile-tab-item.active{ color:var(--color-gold-light); border-top-color:var(--color-gold); }
+
+  /* ── 統計卡片：沿用 .stat-card 樣式本身，只改成 2 欄排列 ── */
+  .stats-grid{ grid-template-columns:repeat(2,1fr) !important; gap:8px; }
+
+  /* ── 表格：欄寬維持桌面版設定，改用橫向捲動瀏覽 ── */
+  .table-section{ overflow-x:auto; }
+  .data-table{ min-width:760px; }
+
+  /* ── Tab 列：字級／高度縮小避免擠壓 ── */
+  .tab-item{ font-size:12px; padding:0 6px; height:40px; }
+
+  /* ── 工具列：搜尋框可伸縮，篩選列換行 ── */
+  .toolbar{ padding:10px 12px; }
+  .search-box{ width:auto; flex:1 1 140px; }
+  .toolbar-right{ width:100%; justify-content:space-between; margin-left:0; }
+
+  /* ── Modal：左右留白縮小，沿用原本卡片樣式 ── */
+  .form-modal-box,.feedback-modal-box,.reject-modal-box{ padding:18px 16px; }
+  #reviewFlowBar{ flex-wrap:wrap !important; row-gap:8px; }
+
+  /* ── 側邊欄在手機版改由迷你面板取代，本體隱藏 ── */
+  .app-sidebar{ display:none !important; }
+
+  /* ── 統計列（所有申請/申請紀錄/本月紀錄/本月查詢）：強制單排橫向捲動 ── */
+  #page-main .stats-grid,
+  #page-myrecords .stats-grid,
+  #page-monthly .stats-grid,
+  #page-monthly-all .stats-grid {
+    display:flex !important;
+    overflow-x:auto;
+    gap:8px;
+    padding-bottom:4px;
+    -webkit-overflow-scrolling:touch;
+  }
+  #page-main .stats-grid .stat-card,
+  #page-myrecords .stats-grid .stat-card,
+  #page-monthly .stats-grid .stat-card,
+  #page-monthly-all .stats-grid .stat-card {
+    flex:0 0 88px;
+    min-width:88px;
+  }
+
+  /* ── 帳號管理：總帳號數 → 總數（手機版 label 縮短）── */
+  #page-account .stat-card:first-child .stat-card-label{ font-size:0; }
+  #page-account .stat-card:first-child .stat-card-label::after{ content:'總數'; font-size:var(--font-size-sm); }
+
+  /* ── 表格隱藏 → 卡片顯示（申請類 6 頁 + 帳號管理）── */
+  /* 隱藏桌面版表格區塊（toolbar 保留不隱，只隱 table 本身） */
+  #page-main    .table-section table,
+  #page-main    .table-section .table-footer,
+  #page-myrecords .table-section table,
+  #page-myrecords .table-section .table-footer,
+  #page-monthly   .table-section table,
+  #page-monthly   .table-section .table-footer,
+  #page-monthly-all .table-section table,
+  #page-monthly-all .table-section .table-footer,
+  #page-feedback-mgr .table-section table,
+  #page-feedback-mgr .table-section .table-footer,
+  #page-report-mgr .table-section table,
+  #page-report-mgr .table-section .table-footer,
+  #acc-desktop-table table,
+  #acc-desktop-table .table-footer
+  { display:none !important; }
+
+  /* 顯示手機版卡片容器 */
+  #main-mobile-list,
+  #main-mob-pagination,
+  #my-mobile-list,
+  #my-mob-pagination,
+  #mon-mobile-list,
+  #mon-mob-pagination,
+  #mall-mobile-list,
+  #mall-mob-pagination,
+  #fb-mobile-list,
+  #rp-mobile-list,
+  #acc-mobile-list
+  { display:block !important; }
+
+  /* 分頁容器在手機版改為 flex 置中 */
+  #main-mob-pagination,
+  #my-mob-pagination,
+  #mon-mob-pagination,
+  #mall-mob-pagination
+  { display:flex !important; justify-content:center; padding:8px 0; }
+
+  /* ── 底部導覽列收起/展開 ──
+     正常：tabbar 60px + toggle-strip 18px = 78px 共高
+     收起：tabbar 隱藏，只剩 toggle-strip 18px
+  ── */
+  .mobile-tabbar{ padding-bottom:18px; }   /* 讓 toggle-strip 有位置 */
+  .mob-tabbar-toggle{
+    position:fixed; left:0; right:0; bottom:0;
+    height:18px; background-color:var(--color-bg-sidebar);
+    border-top:1px solid var(--color-border-sidebar);
+    display:flex; align-items:center; justify-content:center;
+    z-index:1960; cursor:pointer; user-select:none;
+    font-size:10px; color:var(--sidebar-item-color); gap:3px;
+  }
+  .mobile-tabbar.collapsed{ height:0; overflow:hidden; padding-bottom:0; border-top:none; }
+  .mobile-tabbar.collapsed ~ .mob-tabbar-toggle{ border-top:1px solid var(--color-border-sidebar); }
+  .app-main{ transition:padding-bottom .2s; }
+  .app-main.tabbar-collapsed{ padding-bottom:20px; }
+
+  /* ── 數據分析頁手機版：scroll-snap 橫向滑動 ── */
+  /* 統計卡片區（8 個，每次顯示 4 個） */
+  #page-analytics .ana-stats-row{
+    display:flex !important;
+    overflow-x:auto;
+    overflow-y:hidden;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    gap:8px;
+    padding:10px 12px 4px !important;
+    scrollbar-width:none;
+  }
+  #page-analytics .ana-stats-row::-webkit-scrollbar{ display:none; }
+  #page-analytics .ana-stats-row > div{
+    flex:0 0 calc(25% - 6px);
+    min-width:calc(25% - 6px);
+    scroll-snap-align:start;
+  }
+
+  /* 圖表區（每次顯示 1 張，置中） */
+  #page-analytics .ana-charts-row{
+    display:flex !important;
+    overflow-x:auto;
+    overflow-y:hidden;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    gap:12px;
+    padding:12px 12px 8px !important;
+    scrollbar-width:none;
+    align-items:flex-start;
+  }
+  #page-analytics .ana-charts-row::-webkit-scrollbar{ display:none; }
+  #page-analytics .ana-chart-slide{
+    flex:0 0 calc(100vw - 48px) !important;
+    min-width:calc(100vw - 48px) !important;
+    width:calc(100vw - 48px) !important;
+    scroll-snap-align:center;
+    grid-column:unset !important;   /* 取消電腦版 span 2 設定 */
+  }
+}
 </style>
 
   <meta property="og:title" content="📝｜MYs系統｜人資行政管理系統" />
@@ -1439,7 +1707,7 @@ html,body{height:100%;font-family:var(--font-body);font-size:var(--font-size-bas
             </div>
 
             <!-- C5: 每週申請趨勢 -->
-            <div class="ana-chart-slide" style="background:#333;border:1px solid #4a4a4a;border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:10px;">
+            <div class="ana-chart-slide" style="background:#333;border:1px solid #4a4a4a;border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:10px;grid-column:span 2;">
               <p id="ana-trend-title" style="font-size:12px;font-weight:600;color:#e8e4d8;text-align:center;">全年度每月申請趨勢</p>
               <div style="flex:1;min-height:0;display:flex;align-items:stretch;">
                 <svg id="ana-trend-svg" viewBox="0 0 500 150" style="width:100%;overflow:visible;" preserveAspectRatio="xMidYMid meet">
@@ -1503,7 +1771,7 @@ html,body{height:100%;font-family:var(--font-body);font-size:var(--font-size-bas
             </div>
 
             <!-- 各部門申請明細 -->
-            <div class="ana-chart-slide" style="background:#333;border:1px solid #4a4a4a;border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:12px;">
+            <div class="ana-chart-slide" style="background:#333;border:1px solid #4a4a4a;border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:12px;grid-column:span 2;">
               <p style="font-size:12px;font-weight:600;color:#e8e4d8;text-align:center;">各部門申請明細</p>
               <div id="ana-dept-list" style="display:flex;flex-direction:column;justify-content:space-around;flex:1;gap:0;">
 
@@ -1561,7 +1829,6 @@ html,body{height:100%;font-family:var(--font-body);font-size:var(--font-size-bas
           </div><!-- end 下半 -->
           </div><!-- end 合一橫向滑動列 -->
         </div>
-      </div>
 
 
       <!-- ════ 申請紀錄 ════ -->
@@ -2262,6 +2529,14 @@ html,body{height:100%;font-family:var(--font-body);font-size:var(--font-size-bas
 </main>
   </div><!-- end app-body -->
 
+  <!-- 手機版底部分類導覽列（內容由 JS 依現有側邊欄 .sidebar-section 動態產生，非新增資料） -->
+  <nav class="mobile-tabbar" id="mobileTabbar"></nav>
+  <!-- 底部導覽列收起/展開細條 -->
+  <div class="mob-tabbar-toggle" id="mobTabbarToggle" onclick="toggleMobileTabbar()">
+    <span id="mobTabbarToggleIcon">▼</span><span id="mobTabbarToggleLabel">收起</span>
+  </div>
+  <!-- 手機版側邊欄抽屜背景遮罩 -->
+  <div class="mobile-sidebar-backdrop" id="mobileSidebarBackdrop" onclick="closeMobileSidebar()"></div>
 
 </div><!-- end app-wrapper -->
 <!-- 帳號 Modal -->
@@ -2589,6 +2864,7 @@ function filterMallLeave(type, el) {
 
 /* ══ 右側介面跳轉 ══ */
 function showPage(pageId, el) {
+  if (typeof closeMobileSidebar === 'function') closeMobileSidebar();
   document.querySelectorAll('.page-section').forEach(function(s) { s.classList.remove('active'); });
   var t = document.getElementById('page-' + pageId);
   if (t) t.classList.add('active');
@@ -4248,9 +4524,13 @@ function buildAppMobileCard(a, listEl, prefix, idx) {
     ? fmtDateOnly(a.startDate||a.endDate||a.quitPlanDate)
     : fmtDRange(a.startDate, a.endDate);
   var subtype = a.subtype || a.type || '—';
-  var proofHtml = proofBadge(a);  // 附件狀態（含無須附件判斷）
-  var cardKey = prefix + '-' + idx;
+  var proofHtml = proofBadge(a);
+  var cardKey  = prefix + '-' + idx;
+  var detailId = 'mob-app-detail-' + prefix + '-' + idx;
   MOB_APP_DATA[cardKey] = a;
+
+  var r1 = a.reviewer  || (isDone||isReject ? '—' : '待審核');
+  var r2 = a.verifier  || (isReject ? '未覆核' : (a.reviewer ? '待覆核' : '—'));
 
   var card = document.createElement('div');
   card.className = 'mob-app-card';
@@ -4264,13 +4544,29 @@ function buildAppMobileCard(a, listEl, prefix, idx) {
       '</div>' +
       '<span style="font-size:10px;font-weight:700;padding:3px 10px;border-radius:8px;white-space:nowrap;flex-shrink:0;background:'+sBg+';color:'+sColor+';">'+sLabel+'</span>' +
     '</div>' +
-    '<div style="font-size:12px;color:var(--color-text-muted);font-family:var(--font-mono);">' + dateStr + '</div>' +
-    '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;">' +
-      proofHtml +
-      '<button onclick="mobAppCardOpen(\''+cardKey+'\')" style="font-size:11px;padding:6px 16px;border-radius:6px;cursor:pointer;border:1.5px solid #90caf9;background:#deeeff;color:#5b9bd5;font-weight:600;-webkit-tap-highlight-color:transparent;">查看進度</button>' +
-    '</div>';
+    '<div class="mob-app-card-detail" id="'+detailId+'">' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:12px;color:var(--color-text-primary);">' +
+        '<div><span style="color:var(--color-text-muted);font-size:11px;">編號　</span>' + (a.id||'—') + '</div>' +
+        '<div><span style="color:var(--color-text-muted);font-size:11px;">起訖　</span>' + dateStr + '</div>' +
+        '<div><span style="color:var(--color-text-muted);font-size:11px;">審核人</span> ' + r1 + '</div>' +
+        '<div><span style="color:var(--color-text-muted);font-size:11px;">覆核人</span> ' + r2 + '</div>' +
+      '</div>' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;">' +
+        proofHtml +
+        '<button onclick="mobAppCardOpen(\''+cardKey+'\')" style="font-size:11px;padding:6px 16px;border-radius:6px;cursor:pointer;border:1.5px solid #90caf9;background:#deeeff;color:#5b9bd5;font-weight:600;-webkit-tap-highlight-color:transparent;">查看進度</button>' +
+      '</div>' +
+    '</div>' +
+    '<div class="mic-toggle" onclick="toggleMobAppCard(\''+detailId+'\',this)">▼ 展開</div>';
   listEl.appendChild(card);
 }
+
+function toggleMobAppCard(id, el) {
+  var d = document.getElementById(id);
+  if (!d) return;
+  d.classList.toggle('open');
+  if (el) el.textContent = d.classList.contains('open') ? '▲ 收起' : '▼ 展開';
+}
+
 
 function renderMainTable(apps) {
   var tbody = document.getElementById('tableBody');
@@ -5228,6 +5524,7 @@ function markFbrpDone() {
 
 
 function initAuth() {
+  /* ====== [暫時停用 START] 原始登入驗證邏輯，預覽結束後請刪除下方「暫時預覽用」區塊並取消這段註解 ======
   // 立即顯示遮罩（確保未登入狀態不可操作）
   applyBlur(true);
   document.getElementById('loginOverlay').style.display = 'flex';
@@ -5247,6 +5544,11 @@ function initAuth() {
   applyPermissions('guest');
   applyBlur(true);
   openLoginModal();
+  ====== [暫時停用 END] ====== */
+
+  // ---- [暫時預覽用] 略過登入驗證，直接以 admin 角色身分進入，方便檢視版面 ----
+  CURRENT_USER = { mail:'preview@demo.com', name:'預覽帳號', team:'人資部', title:'人資專員', role:'admin' };
+  onLoginSuccess(CURRENT_USER, true);
 }
 
 /* ══ 執行登入 ══ */
@@ -5453,7 +5755,101 @@ function applyPermissions(role) {
       div.style.display = '';
     }
   });
+  // 手機版底部分類導覽列：依目前可見的 sidebar-section 重新產生
+  if (typeof buildMobileTabbar === 'function') buildMobileTabbar();
 }
+
+/* ══ 手機版：底部分類導覽列 + 側邊欄抽屜 ══
+   說明：完全沿用桌面版既有的 .app-sidebar / .sidebar-section / .sidebar-nav-item
+   資料與樣式，這裡只是另外做一個「進入點」，點擊後把同一份側邊欄
+   用 CSS 從畫面下方滑出來，並捲動到對應分類，不重複建立任何選單資料 ══ */
+var _mobSidebarOpenSection = null;
+function buildMobileTabbar() {
+  var bar = document.getElementById('mobileTabbar');
+  if (!bar) return;
+  bar.innerHTML = '';
+  document.querySelectorAll('.app-sidebar .sidebar-section').forEach(function(sec){
+    if (sec.style.display === 'none') return; // 權限隱藏的分類不顯示在手機導覽列
+    var label = sec.querySelector('.sidebar-section-label');
+    var firstItem = sec.querySelector('.sidebar-nav-item');
+    if (!label || !firstItem) return;
+    var iconEl = firstItem.querySelector('.sidebar-icon');
+    var btn = document.createElement('div');
+    btn.className = 'mobile-tab-item';
+    btn.innerHTML = '<span class="mobile-tab-icon">' + (iconEl ? iconEl.textContent : '📁') + '</span><span>' + label.textContent + '</span>';
+    btn.onclick = function(){ toggleMobileSidebarSection(sec, btn); };
+    bar.appendChild(btn);
+  });
+}
+function toggleMobileSidebarSection(sec, btn) {
+  var isActive = btn.classList.contains('active');
+  closeMobileSidebar();
+  if (isActive) return; // 再點同一個 → 收起
+
+  // 建立或取得迷你面板
+  var panel = document.getElementById('mob-submenu-panel');
+  if (!panel) {
+    panel = document.createElement('div');
+    panel.id = 'mob-submenu-panel';
+    document.getElementById('mobileTabbar').parentNode.insertBefore(
+      panel, document.getElementById('mobileTabbar')
+    );
+  }
+  panel.innerHTML = '';
+
+  // 只把這個分類下可見的 nav item 複製進面板
+  sec.querySelectorAll('.sidebar-nav-item').forEach(function(item){
+    if (item.style.display === 'none') return;
+    var el = document.createElement('div');
+    el.className = item.className;
+    el.innerHTML  = item.innerHTML;
+    var onclickAttr = item.getAttribute('onclick');
+    if (onclickAttr) {
+      // 在原本的 onclick 後加上關閉面板
+      el.setAttribute('onclick', onclickAttr + '; closeMobileSidebar();');
+    } else {
+      el.onclick = function(){ closeMobileSidebar(); };
+    }
+    panel.appendChild(el);
+  });
+
+  panel.classList.add('show');
+  btn.classList.add('active');
+  _mobSidebarOpenSection = sec;
+  var backdrop = document.getElementById('mobileSidebarBackdrop');
+  if (backdrop) backdrop.classList.add('show');
+}
+function closeMobileSidebar() {
+  var panel = document.getElementById('mob-submenu-panel');
+  if (panel) panel.classList.remove('show');
+  var backdrop = document.getElementById('mobileSidebarBackdrop');
+  if (backdrop) backdrop.classList.remove('show');
+  document.querySelectorAll('.mobile-tab-item').forEach(function(b){ b.classList.remove('active'); });
+  _mobSidebarOpenSection = null;
+}
+
+/* ── 底部導覽列收起/展開 ── */
+function toggleMobileTabbar() {
+  var bar    = document.getElementById('mobileTabbar');
+  var icon   = document.getElementById('mobTabbarToggleIcon');
+  var label  = document.getElementById('mobTabbarToggleLabel');
+  var main   = document.querySelector('.app-main');
+  if (!bar) return;
+  var isCollapsed = bar.classList.contains('collapsed');
+  if (isCollapsed) {
+    bar.classList.remove('collapsed');
+    if (main) main.classList.remove('tabbar-collapsed');
+    if (icon)  icon.textContent  = '▼';
+    if (label) label.textContent = '收起';
+  } else {
+    closeMobileSidebar(); // 先收起迷你面板
+    bar.classList.add('collapsed');
+    if (main) main.classList.add('tabbar-collapsed');
+    if (icon)  icon.textContent  = '▲';
+    if (label) label.textContent = '展開';
+  }
+}
+
 var MAIL_DOMAINS = ['gmail.com','yahoo.com.tw','yahoo.com','outlook.com','hotmail.com','icloud.com','msn.com'];
 
 function updateMailSuggestions() {
@@ -7065,6 +7461,10 @@ function initGjCard() {
 filterTable();
 dcLoadFiles();
 applyBlur(true); // 預設模糊，initAuth 登入成功後解除
+// 手機版：sidebar 內的外部連結（target=_blank，不會經過 showPage）點擊後也收合抽屜
+document.querySelectorAll('.app-sidebar .sidebar-nav-item.external').forEach(function(item){
+  item.addEventListener('click', function(){ if (typeof closeMobileSidebar === 'function') closeMobileSidebar(); });
+});
 initAuth(); // 進入文件中心時立即從 GAS 載入
 </script>
 
@@ -7248,5 +7648,4 @@ initAuth(); // 進入文件中心時立即從 GAS 載入
 </div>
 
 </body>
-</html>
 </html>
